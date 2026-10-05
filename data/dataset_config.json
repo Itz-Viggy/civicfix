@@ -1,0 +1,11 @@
+{
+  "dataset_name": "CivicFix Commons Curated Collection",
+  "dataset_version": "v1",
+  "storage_mode": "github",
+  "repository": "Itz-Viggy/civicfix",
+  "private": true,
+  "dataset_commit": "8394bf6d0d84c9dbf33e69258f0cd15ee4795ca4",
+  "manifest_sha256": "98f8e250316df8c1517b381445d05dbc8a98813020930438a506e72e75dd28f9",
+  "source_records": "docs/source_records.json",
+  "image_budget_mib": 25
+}
