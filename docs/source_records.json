@@ -28,7 +28,6 @@
     "retrieved_at": "2026-10-05T00:49:03.198017+00:00",
     "download_sha256": "804682298d2248df228870563a36b4ce4b8737d3b18000f1003df7c2473c950c",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "6e993aeb19313244070ac572c3988c13b93b7e2da8452f8cf45429d5a0696f54",
     "filename": "images/commons-04258228ae.jpg",
     "agent_review": {
@@ -36,7 +35,9 @@
       "reviewed_at": "2026-10-05T01:00:46.745123+00:00",
       "evidence": "Road-name panel and its frame are detached and tilted against a fence.",
       "location": "Seein Road, United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-0a68e3b438",
@@ -66,7 +67,6 @@
     "retrieved_at": "2026-10-05T00:42:15.887918+00:00",
     "download_sha256": "ec1da5dfc27bfe89406b8e6b8a6d6cca5153545fb90e4e811b59f35b44223429",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "7e3412a29abf122b0d8a3558cf34e8295ddd73d4b1fc2ba247c9edac6f0234bb",
     "filename": "images/commons-0a68e3b438.jpg",
     "agent_review": {
@@ -75,7 +75,9 @@
       "evidence": "Visible dark road-surface cavity beside an intact drain cover.",
       "location": "Unknown",
       "lighting": "low_light"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-0f02ab33ca",
@@ -106,7 +108,6 @@
     "retrieved_at": "2026-10-05T00:56:20.665083+00:00",
     "download_sha256": "72e867bb84c05bfb2c494e8d855e457534e56e8a7a6ac6627aecf1c4f1a7c4ff",
     "transformation": "Commons cached thumbnail (330 px for small originals) where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "5da0ae0b303a49530b31fed46553e2bd37b4249f6584d4f25d1acd0e1c630e1c",
     "filename": "images/commons-0f02ab33ca.jpg",
     "agent_review": {
@@ -114,7 +115,9 @@
       "reviewed_at": "2026-10-05T01:00:46.746651+00:00",
       "evidence": "Discarded bulky items lie beyond a rural hedge; source says waste was thrown over it beside Auchenlodment Road.",
       "location": "Johnstone, United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-1b000da556",
@@ -145,7 +148,6 @@
     "retrieved_at": "2026-10-05T00:55:28.282488+00:00",
     "download_sha256": "f26df05c6553b74a064facd07c07af10c1b50557c3acfb135692a310e74b0fd2",
     "transformation": "Commons cached thumbnail (330 px for small originals) where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "8f5d90ffbb70e2ec3f80d4db6ae19586b102812e7d9cddd3921c8cf9116812c0",
     "filename": "images/commons-1b000da556.jpg",
     "agent_review": {
@@ -154,7 +156,9 @@
       "evidence": "Unintended-looking water plume rises from a pavement utility opening; source explicitly identifies a leaking fire hydrant.",
       "location": "Balniel Gate, United Kingdom",
       "note": "Hydrant body is not visible; issue identity is source-caption-supported. Leak cause is not independently verified."
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-1be7ba9610",
@@ -185,7 +189,6 @@
     "retrieved_at": "2026-10-05T00:48:33.083640+00:00",
     "download_sha256": "8ce78d369c65173fc79b17693676337e9d8d9c0af5db8d00b2cf4b67fa00671d",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "f48711a0ed3b2e38475185ac9914e6efe8b1bfba47a25c065090ac2745b29a0c",
     "filename": "images/commons-1be7ba9610.jpg",
     "agent_review": {
@@ -193,7 +196,9 @@
       "reviewed_at": "2026-10-05T01:00:46.747622+00:00",
       "evidence": "Road-name panel is mostly missing/illegible, with damage to its support.",
       "location": "Tamlaght, Newtownsaville, United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-1ce17d43d9",
@@ -224,7 +229,6 @@
     "retrieved_at": "2026-10-05T00:55:47.076254+00:00",
     "download_sha256": "3e7343dff3b2d33359865f3faf44052a9785d9f55b1e40dfc7b9d402381bd5ff",
     "transformation": "Commons cached thumbnail (330 px for small originals) where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "f5968eb07a2524179dfc25f503d567e25a069b051e5165dddc80dbd99ec2cd18",
     "filename": "images/commons-1ce17d43d9.jpg",
     "agent_review": {
@@ -232,7 +236,9 @@
       "reviewed_at": "2026-10-05T01:00:46.748076+00:00",
       "evidence": "Discarded broken electronic/appliance housings are dumped on public-land soil; BLM source explicitly describes illegal dumping.",
       "location": "Medford District, Oregon, United States"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-2409b4bbcb",
@@ -263,7 +269,6 @@
     "retrieved_at": "2026-10-05T00:51:30.480691+00:00",
     "download_sha256": "9ae6336e2d1505a8c479f555c982c8467f71991f752eb8b624c52da833999286",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "2c98dbed7216d45b29f9c726d0c1ed4a7bff9e26e5d1c09ed0fdb259c0e98468",
     "filename": "images/commons-2409b4bbcb.jpg",
     "agent_review": {
@@ -271,7 +276,9 @@
       "reviewed_at": "2026-10-05T01:00:46.748642+00:00",
       "evidence": "Globe is displaced to one side of the mounting, exposing the socket hardware.",
       "location": "Luziny, Prague, Czechia"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-289e64dab5",
@@ -302,7 +309,6 @@
     "retrieved_at": "2026-10-05T00:54:36.760108+00:00",
     "download_sha256": "50d97c92123a95d96ab023dba5f1137aa33452f217114ea9f9c0cd40bd01b189",
     "transformation": "Commons cached thumbnail (330 px for small originals) where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "619cc7138dc1598b9df84ba94f27f95ae2b7bcc4eb17802a6f5028c9404178c3",
     "filename": "images/commons-289e64dab5.jpg",
     "agent_review": {
@@ -310,7 +316,9 @@
       "reviewed_at": "2026-10-05T01:00:46.749060+00:00",
       "evidence": "Detached road-name panel lies below its remaining post, with broken framing.",
       "location": "Backfarm, United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-359e62bbe5",
@@ -341,7 +349,6 @@
     "retrieved_at": "2026-10-05T00:56:15.053420+00:00",
     "download_sha256": "e96ba28511158c3723c920fae3a52523c1b88ce01b03cbe7424efec2f2464785",
     "transformation": "Commons cached thumbnail (330 px for small originals) where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "c998220306c469a5c48cc87e0f26984ddd45919b53b815ff8f939cdc320fd675",
     "filename": "images/commons-359e62bbe5.jpg",
     "agent_review": {
@@ -350,7 +357,9 @@
       "evidence": "Discarded mattress and bulky objects sit beside a road rather than a collection container; source identifies a fly-tipping site.",
       "location": "",
       "note": "Unauthorized status relies on source title/context, not legal inference from appearance."
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-3e69e554ed",
@@ -380,7 +389,6 @@
     "retrieved_at": "2026-10-05T00:42:07.661128+00:00",
     "download_sha256": "d7910304b3adaa2359a2f60ec761d9a842938d7d89be54769d7ed848b4c87cac",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "public_domain_declaration_checked_at": "2026-10-05T01:00:30.919239+00:00",
     "stored_sha256": "5da1542b8fb71355eff984159f204950f222860ec5d85b3fbd60c2685ab38d31",
     "filename": "images/commons-3e69e554ed.jpg",
@@ -389,7 +397,9 @@
       "reviewed_at": "2026-10-05T01:00:46.750087+00:00",
       "evidence": "Two visible surface cavities with exposed material on asphalt.",
       "location": "Banbury, United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-47aa637b4d",
@@ -420,7 +430,6 @@
     "retrieved_at": "2026-10-05T00:48:35.626585+00:00",
     "download_sha256": "82b3027cda8ab8d633175508eb13d7c4d143f2e6c4e72e661c5afebf0c494632",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "1c5b8836e8b29a6f4f02177fd639ac099dd2daa9386866058576a07f2e80ebea",
     "filename": "images/commons-47aa637b4d.jpg",
     "agent_review": {
@@ -428,7 +437,9 @@
       "reviewed_at": "2026-10-05T01:00:46.750663+00:00",
       "evidence": "Give Way signpost is broken short near the verge, leaving the sign unusually close to the ground; source identifies a broken Give Way sign.",
       "location": "Shifnal, United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-4be599b76a",
@@ -459,7 +470,6 @@
     "retrieved_at": "2026-10-05T00:48:01.283970+00:00",
     "download_sha256": "f6d4f6bc9a6677a494ea91761134259ac7fed1d5dad6d8f08e9ce16db8df4948",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "df7287c7a70f5c44aeebbf18ffebc6a78fd37a4222a935f18726c52b85a9a550",
     "filename": "images/commons-4be599b76a.jpg",
     "agent_review": {
@@ -468,7 +478,9 @@
       "evidence": "Wall-mounted street lantern has visibly broken/missing glazing and damaged enclosure.",
       "location": "",
       "note": "Wall-mounted lantern rather than pole-mounted municipal lamp; jurisdiction is unverified."
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-4c4c4bc5e0",
@@ -499,7 +511,6 @@
     "retrieved_at": "2026-10-05T00:48:41.496239+00:00",
     "download_sha256": "6e2db4a1a8279b6c9443422b73f9045658446fc886df78462e691574d2f48446",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "f6cabae0d6e8a7cbd5b38a657ea6c37b1f7efe5c849d9c6926e66c8f3757335f",
     "filename": "images/commons-4c4c4bc5e0.jpg",
     "agent_review": {
@@ -507,7 +518,9 @@
       "reviewed_at": "2026-10-05T01:00:46.752046+00:00",
       "evidence": "Circular road sign has a fractured edge and missing portion.",
       "location": "United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-5000667ac9",
@@ -538,7 +551,6 @@
     "retrieved_at": "2026-10-05T00:48:52.948066+00:00",
     "download_sha256": "75dc79865258aa69b5f517a227953cf0ead7d722a8b8eda0e58f4bc671be99ba",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "f4add92b12b8d66c0480d7f7235bb8d5e91fad1883015a67ba0186316698107e",
     "filename": "images/commons-5000667ac9.jpg",
     "agent_review": {
@@ -546,7 +558,9 @@
       "reviewed_at": "2026-10-05T01:00:46.752617+00:00",
       "evidence": "Road-name panel has a large broken-out section through its lettering.",
       "location": "Glenhordial Road, United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-53a0d4c79e",
@@ -577,7 +591,6 @@
     "retrieved_at": "2026-10-05T00:51:23.828405+00:00",
     "download_sha256": "75b270941ab2cba9543d5578fbaa04f7ee5cd60ec723bcbc642627ff6d1fa539",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "0cbcfb36e117c314773aca503db12cbdbae2b47be6ae04b027bfc8b54570df78",
     "filename": "images/commons-53a0d4c79e.jpg",
     "agent_review": {
@@ -585,7 +598,9 @@
       "reviewed_at": "2026-10-05T01:00:46.753900+00:00",
       "evidence": "Distinct missing asphalt and exposed aggregate in road pavement.",
       "location": ""
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-7b78ffad33",
@@ -616,7 +631,6 @@
     "retrieved_at": "2026-10-05T00:55:49.639990+00:00",
     "download_sha256": "623547d475b3c32a3c75550911e8481e955d98ee216fb26f53f3a27b535c6d3f",
     "transformation": "Commons cached thumbnail (330 px for small originals) where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "f76ab98c1bd4b5c3969fd5da2616316877799ecc633f874db5b2466ce8b7e3b7",
     "filename": "images/commons-7b78ffad33.jpg",
     "agent_review": {
@@ -624,7 +638,9 @@
       "reviewed_at": "2026-10-05T01:00:46.755004+00:00",
       "evidence": "Large piles of branches and waste occupy an abandoned paved area; source identifies fly tipping.",
       "location": "Straiton, United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-81da3dfe1b",
@@ -655,7 +671,6 @@
     "retrieved_at": "2026-10-05T00:51:27.684853+00:00",
     "download_sha256": "a0fa0eb3ba981ac12e874f6ed01193979aee657d0427bdd2e29b491bd89c36db",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "f0fc435a2c661b5c271baceb77ef0473177161861dcce7fb378a7f9d57f5b4c3",
     "filename": "images/commons-81da3dfe1b.jpg",
     "agent_review": {
@@ -663,7 +678,9 @@
       "reviewed_at": "2026-10-05T01:00:46.755967+00:00",
       "evidence": "Lamp lens/enclosure is fractured and open, with inner hardware exposed.",
       "location": "Chalupkova, Czechia"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-84bcb35daa",
@@ -693,7 +710,6 @@
     "retrieved_at": "2026-10-05T00:43:12.088832+00:00",
     "download_sha256": "d6206d2e7ad44149989ff7606d0f5bcffc9764470146c5fcdc84351ed8fcea0b",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "368cec1182f9b1af4835a3623f4b6143e10bc85080c758e17eba51440f43363a",
     "filename": "images/commons-84bcb35daa.jpg",
     "agent_review": {
@@ -701,7 +717,9 @@
       "reviewed_at": "2026-10-05T01:00:46.757725+00:00",
       "evidence": "Lamp head is detached and hanging down below the top of the park lamppost.",
       "location": "Central Park, New York City, United States"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-8ecf201b0b",
@@ -731,7 +749,6 @@
     "retrieved_at": "2026-10-05T00:41:52.582384+00:00",
     "download_sha256": "ff8376e7a42f761e149542520c87b5db5382d336301152485ae2437e4965956a",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "public_domain_declaration_checked_at": "2026-10-05T01:00:30.920405+00:00",
     "stored_sha256": "3e945cbebed3ad1184faee45195c88e30db124621acb00c3d05dfab9411fe606",
     "filename": "images/commons-8ecf201b0b.jpg",
@@ -740,7 +757,9 @@
       "reviewed_at": "2026-10-05T01:00:46.758383+00:00",
       "evidence": "Large crater with broken asphalt edges and exposed road base.",
       "location": ""
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-9019e613c0",
@@ -770,7 +789,6 @@
     "retrieved_at": "2026-10-05T00:41:49.568926+00:00",
     "download_sha256": "13631d17f70caae5c9e607ef1fea812eb6695d764704923fda77b7f93afea361",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "public_domain_declaration_checked_at": "2026-10-05T01:00:30.920126+00:00",
     "stored_sha256": "adfa742982c2bd10a24504070f1a99af7bacce6341ba479ae2126ae373172f77",
     "filename": "images/commons-9019e613c0.jpg",
@@ -780,7 +798,9 @@
       "evidence": "Water-filled cavity with visibly missing asphalt and broken edges.",
       "location": "Montreal, Canada",
       "note": "Source explicitly warns that camera EXIF date is incorrect; do not infer capture date from EXIF."
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-91f5ab98d5",
@@ -810,7 +830,6 @@
     "retrieved_at": "2026-10-05T00:42:18.588344+00:00",
     "download_sha256": "08e5068b5cd7e44476f460ced95721ff1783ef82e076f05c5c269f5cbab2a52e",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "e55eb3345ebbb9a45d69fcba78597fe6b663ee277641af2d9c300c51edd5ce91",
     "filename": "images/commons-91f5ab98d5.jpg",
     "agent_review": {
@@ -818,7 +837,9 @@
       "reviewed_at": "2026-10-05T01:00:46.761791+00:00",
       "evidence": "Broken, sunken asphalt at the edge of a road utility cover; visible loss of road surface.",
       "location": "Washington, DC, United States"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-9271f8fbbf",
@@ -848,7 +869,6 @@
     "retrieved_at": "2026-10-05T00:42:02.527888+00:00",
     "download_sha256": "10a779f02a97e978605349e24fdaa71cb62eea14e9925e6f2fa5f1090e773100",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "0e4135a464df8c74301d8fd2462985d7f80e173afb98635ad2e76958f57ad2a5",
     "filename": "images/commons-9271f8fbbf.jpg",
     "agent_review": {
@@ -856,7 +876,9 @@
       "reviewed_at": "2026-10-05T01:00:46.763498+00:00",
       "evidence": "Visible eroded depression in an unpaved road; source explicitly attributes the pothole to traffic and precipitation.",
       "location": "Gilchrist County, Florida, United States"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-951c65e3fc",
@@ -887,7 +909,6 @@
     "retrieved_at": "2026-10-05T00:56:29.399237+00:00",
     "download_sha256": "eb296fbf76fa582a3cf2619e14ca207c6f8183bfd5f00aa08c8d87d15afcd945",
     "transformation": "Commons cached thumbnail (330 px for small originals) where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "c392be5453ec8519ce3eb3309a5bd9d9ccf5bbad5441dfec139f887a56491cf2",
     "filename": "images/commons-951c65e3fc.jpg",
     "agent_review": {
@@ -895,7 +916,9 @@
       "reviewed_at": "2026-10-05T01:00:46.764023+00:00",
       "evidence": "Large heap of manufacturing off-cuts obstructs a rural track; source explicitly says the material was dumped.",
       "location": "Fosse Way near Culkerton, United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-95929b7145",
@@ -925,7 +948,6 @@
     "retrieved_at": "2026-10-05T00:43:06.392198+00:00",
     "download_sha256": "93d23fd83daab882b2ab0ace9f149ecfb7316393a19c5223af3770e79e62bd7e",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "15944c24c947f7e668517059b9f36c5c2da7ef7f101c078e6630c182ec17b907",
     "filename": "images/commons-95929b7145.jpg",
     "agent_review": {
@@ -933,7 +955,9 @@
       "reviewed_at": "2026-10-05T01:00:46.764464+00:00",
       "evidence": "Decorative lamp has missing outer lamp enclosures, leaving inner bulbs exposed; damaged-lamp source caption supports this interpretation.",
       "location": "Fira, Greece"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-9763aaca53",
@@ -963,7 +987,6 @@
     "retrieved_at": "2026-10-05T00:44:07.186897+00:00",
     "download_sha256": "5dec93be47d965652db39b035516b9d74dfea5207503b0660ccb65775b586274",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "dfe19b364b467737eef6ff6dff540df3e0a9e1b6a80109f9e9c02457bbb18420",
     "filename": "images/commons-9763aaca53.jpg",
     "agent_review": {
@@ -971,7 +994,9 @@
       "reviewed_at": "2026-10-05T01:00:46.765434+00:00",
       "evidence": "Streetlight post lies broken on the pavement, with its base detached.",
       "location": "Dusseldorf, Germany"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-a39e024474",
@@ -1001,7 +1026,6 @@
     "retrieved_at": "2026-10-05T00:44:02.916777+00:00",
     "download_sha256": "fa83175e6d0fd85a581d4f6acf7bd4ef324da13c18b1e7043c02d0c5e116c9a8",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "41e3c97eebba65163d040502d49ac52c8f027969ffa15cbd6fadcc5c1313f870",
     "filename": "images/commons-a39e024474.jpg",
     "agent_review": {
@@ -1009,7 +1033,9 @@
       "reviewed_at": "2026-10-05T01:00:46.766108+00:00",
       "evidence": "Streetlight pole leans strongly from vertical; source explicitly identifies tilting.",
       "location": "Fairham, United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-a3ff7b5c1d",
@@ -1039,7 +1065,6 @@
     "retrieved_at": "2026-10-05T00:41:57.669011+00:00",
     "download_sha256": "748a0856b87e9d91edf6014cfe46b9b51c639bb3f51ecc2a81fd7bb2b725e3dc",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "0cfd92ecd80e9a32ad2fb714736aaa7d39e03f0d56f6492af162005dc0f37add",
     "filename": "images/commons-a3ff7b5c1d.jpg",
     "agent_review": {
@@ -1047,7 +1072,9 @@
       "reviewed_at": "2026-10-05T01:00:46.767048+00:00",
       "evidence": "Visible circular missing asphalt and exposed aggregate near the curb.",
       "location": "Bengaluru, India"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-b1418840a5",
@@ -1077,7 +1104,6 @@
     "retrieved_at": "2026-10-05T00:42:25.735068+00:00",
     "download_sha256": "d97a55a4f29aff6bb730b46ab3cdbd54ce0cceba8b18b1dbc66457a347e18af7",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "8fd385da7140d23003f702a740336b2272e5aced2367ee4ff75fbebc65afe939",
     "filename": "images/commons-b1418840a5.jpg",
     "agent_review": {
@@ -1085,7 +1111,9 @@
       "reviewed_at": "2026-10-05T01:00:46.767878+00:00",
       "evidence": "Lamp's outer enclosure is missing and lies beside the pole; source caption states damage.",
       "location": "Westerland, Germany"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-bb9ea4bd37",
@@ -1116,7 +1144,6 @@
     "retrieved_at": "2026-10-05T00:56:17.614851+00:00",
     "download_sha256": "f19e44ba5d5eb28d0b85d182dd0c8eb2b3d97cb64d053d8e0f7c9c5d6420bf22",
     "transformation": "Commons cached thumbnail (330 px for small originals) where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "1b6d4eb6743b08ddf67ee4f1080093c2d0da1bd306e2b2f1e07f48290832396b",
     "filename": "images/commons-bb9ea4bd37.jpg",
     "agent_review": {
@@ -1124,7 +1151,9 @@
       "reviewed_at": "2026-10-05T01:00:46.768966+00:00",
       "evidence": "Bulky rubble and waste are strewn along a rural path verge; source identifies fly tipping.",
       "location": "Chickenley, United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-be90c97f20",
@@ -1155,7 +1184,6 @@
     "retrieved_at": "2026-10-05T00:48:50.484152+00:00",
     "download_sha256": "9351c1877ed6226e9efb4b0217fdf356ada6b5044a481b2da083823374cb0dda",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "f08c66d4af7e9f82d6542903df10242acdfb93a804637244b2c3451988b01720",
     "filename": "images/commons-be90c97f20.jpg",
     "agent_review": {
@@ -1163,7 +1191,9 @@
       "reviewed_at": "2026-10-05T01:00:46.769920+00:00",
       "evidence": "Road-name lettering is chipped/worn and incomplete; source identifies damaged road-name sign.",
       "location": "Rathmore Road, Torquay, United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-c9de6a8517",
@@ -1193,7 +1223,6 @@
     "retrieved_at": "2026-10-05T00:43:09.289481+00:00",
     "download_sha256": "c0a575623324104cc77c68f4e5c2f8f39739957aa2c7ea5228711ca82c0b776c",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "b9b3f395e62b95c779dde0d612aad8d311f5679d6d8af215ebac7a199247d717",
     "filename": "images/commons-c9de6a8517.jpg",
     "agent_review": {
@@ -1201,7 +1230,9 @@
       "reviewed_at": "2026-10-05T01:00:46.770879+00:00",
       "evidence": "Lamp enclosure is detached from its mounting and hangs down beside the post.",
       "location": "San Sebastian, Spain"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-c9f45e0429",
@@ -1231,7 +1262,6 @@
     "retrieved_at": "2026-10-05T00:44:16.361318+00:00",
     "download_sha256": "00564a2529713cbb028208a2e5f1f0e493e3a18e0b319f6b3946411daf2e06bf",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "cb8958ca4b9133e7a9ac902f7ba45b0c5bd73a7c5af5ee7f77fded41be4ed31c",
     "filename": "images/commons-c9f45e0429.jpg",
     "agent_review": {
@@ -1240,7 +1270,9 @@
       "evidence": "Road warning sign has extensive peeling and illegibility; lower distance plate is partly obscured.",
       "location": "Manchester, United Kingdom",
       "note": "Source description is empty; label rests on agent visual interpretation and damaged-road-sign category, not an original annotation."
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-d374fa7f87",
@@ -1270,7 +1302,6 @@
     "retrieved_at": "2026-10-05T00:46:15.058590+00:00",
     "download_sha256": "cd87b9cf45fba5cb7a6aa2670055712c4ed5c3d4c1e991682096cf634a195043",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "970034ca36d6eebfd6998ac57c1d5ee7ed0c1c36a7b1337c14ff2263fde6cbcf",
     "filename": "images/commons-d374fa7f87.jpg",
     "agent_review": {
@@ -1278,7 +1309,9 @@
       "reviewed_at": "2026-10-05T01:00:46.773141+00:00",
       "evidence": "Discarded large appliance in vegetation; source explicitly describes illegally dumped white goods in an agricultural park.",
       "location": "Legnano, Italy"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-d5575814f4",
@@ -1309,7 +1342,6 @@
     "retrieved_at": "2026-10-05T00:55:18.895085+00:00",
     "download_sha256": "b5bf4acbf92b49d7e45bd09bd8a803c713af3e25380be738f917cc30b22cee98",
     "transformation": "Commons cached thumbnail (330 px for small originals) where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "25a22f01c6fd8adfaefc51357d3be8e007f4fedee99aa041ea2e142c1286f5c5",
     "filename": "images/commons-d5575814f4.jpg",
     "agent_review": {
@@ -1318,7 +1350,9 @@
       "evidence": "Water flows across the road; the original source caption specifically identifies a leaking hydrant on Washer Lane.",
       "location": "Washer Lane, United Kingdom",
       "note": "Hydrant itself and leak origin are not visible; this source-supported label is unsuitable as stand-alone proof of photo-only hydrant recognition."
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-d6849d80e8",
@@ -1349,7 +1383,6 @@
     "retrieved_at": "2026-10-05T00:55:44.598280+00:00",
     "download_sha256": "707f15d2fc0fbcd0ac2874b368a5d1fc191e3cf81bd39dd18d3245293d59ad69",
     "transformation": "Commons cached thumbnail (330 px for small originals) where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "95bc7cfd14b0cdcbc7d2e7f34828728816ac241d685f3dadc6533085b788cc69",
     "filename": "images/commons-d6849d80e8.jpg",
     "agent_review": {
@@ -1357,7 +1390,9 @@
       "reviewed_at": "2026-10-05T01:00:46.774195+00:00",
       "evidence": "Discarded appliance and other bulky objects lie in flooded ground; source identifies fly tipping at an abandoned gravel pit.",
       "location": ""
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-d86039e488",
@@ -1387,7 +1422,6 @@
     "retrieved_at": "2026-10-05T00:46:03.122260+00:00",
     "download_sha256": "30b9521ae30de581aa866e5852349ba20a3d04ddbe316bbbce8eb07acb9183ad",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "b2e5e6f1a94a08289b4be392c804adf3ba47ebe61cae74b1b3968c60b16c9e5d",
     "filename": "images/commons-d86039e488.jpg",
     "agent_review": {
@@ -1396,7 +1430,9 @@
       "evidence": "Hydrant emits a high water plume; source explicitly describes a broken-hydrant leak.",
       "location": "Vero Beach, Florida, United States",
       "note": "High-flow leak is atypical for a nonemergency reporter; real incidents may require urgent utility response."
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-dbe1344c9f",
@@ -1426,7 +1462,6 @@
     "retrieved_at": "2026-10-05T00:46:17.759688+00:00",
     "download_sha256": "b273d628899db3e844fcf7216b282abceb5623428ec7639ef4cd09fb5939acd5",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "34b52458998deb7ebd78533b60a5cf948c1a08677e76deaa2ced7ecb096c484c",
     "filename": "images/commons-dbe1344c9f.jpg",
     "agent_review": {
@@ -1434,7 +1469,9 @@
       "reviewed_at": "2026-10-05T01:00:46.776405+00:00",
       "evidence": "Large pile of furniture and appliances dumped along a woodland path; source identifies fly tipping.",
       "location": "High Beech, Essex, United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-dca2e40d63",
@@ -1464,7 +1501,6 @@
     "retrieved_at": "2026-10-05T00:46:11.879501+00:00",
     "download_sha256": "f1d461fff568c5bd814f181c63aa3802d79422dbf57a2ddfa12e7bc016761d47",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "0d04ecb95d958138501a87e240544aa7bb82cbceec7daba52c63389f8eda3f4d",
     "filename": "images/commons-dca2e40d63.jpg",
     "agent_review": {
@@ -1472,7 +1508,9 @@
       "reviewed_at": "2026-10-05T01:00:46.777592+00:00",
       "evidence": "Large mound of rubble blocks a rural path; source explicitly identifies illegally dumped construction waste.",
       "location": "Busto Arsizio, Italy"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-ddf392a527",
@@ -1502,7 +1540,6 @@
     "retrieved_at": "2026-10-05T00:42:13.173440+00:00",
     "download_sha256": "188a5a54a34644963bf168a1931ece9df5adddf3a026481f2ff509025d0184fd",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "e19452ad1ab9891e5b93fa9e306265cd4bed745eea53f65c640787259156f7a1",
     "filename": "images/commons-ddf392a527.jpg",
     "agent_review": {
@@ -1510,7 +1547,9 @@
       "reviewed_at": "2026-10-05T01:00:46.778839+00:00",
       "evidence": "Water-filled missing asphalt with broken surface edges.",
       "location": "Potomac, Maryland, United States"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-dfd2cf17b6",
@@ -1540,7 +1579,6 @@
     "retrieved_at": "2026-10-05T00:41:47.056961+00:00",
     "download_sha256": "50ce6baeae7773a81d49ae804875e4dcb4d80a1e294244188399219803f32c3d",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "2c0e26c7a2956f9a8f95cd86e8fb3468f53549861a19d9e2a82b7919443806e6",
     "filename": "images/commons-dfd2cf17b6.jpg",
     "agent_review": {
@@ -1548,7 +1586,9 @@
       "reviewed_at": "2026-10-05T01:00:46.779767+00:00",
       "evidence": "Long eroded road-surface cavity exposes aggregate; source explicitly identifies a pothole.",
       "location": "County Monaghan, Ireland"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-e6dea1ae8d",
@@ -1579,7 +1619,6 @@
     "retrieved_at": "2026-10-05T00:54:46.197952+00:00",
     "download_sha256": "af21b841b1f7361034d6a795111675abc2c1b0a03211afc28818c3e9cf563580",
     "transformation": "Commons cached thumbnail (330 px for small originals) where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "6528310e4cf2d46fcaa2afec008c045a0d72b7afd6dc2e30df17d037817a8c23",
     "filename": "images/commons-e6dea1ae8d.jpg",
     "agent_review": {
@@ -1587,7 +1626,9 @@
       "reviewed_at": "2026-10-05T01:00:46.780372+00:00",
       "evidence": "Broken road-name panel and framing lie in pieces against vegetation.",
       "location": "Ballinamullan, United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-eddb29d0cf",
@@ -1617,7 +1658,6 @@
     "retrieved_at": "2026-10-05T00:42:21.437225+00:00",
     "download_sha256": "8a909797b787b059fd3b241f19665a769256bdc199f582c59c562793250208c3",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "134e12d1ed89ce4c06b5ec56c01c1bbf4ad922062eb1e14b40c7ee9d87166f50",
     "filename": "images/commons-eddb29d0cf.jpg",
     "agent_review": {
@@ -1625,7 +1665,9 @@
       "reviewed_at": "2026-10-05T01:00:46.781693+00:00",
       "evidence": "Whole streetlight pole lies fallen on a public paved surface; its lamp head is visible at the far end.",
       "location": "Hamina, Finland"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   },
   {
     "image_id": "commons-f5eb1a435d",
@@ -1656,7 +1698,6 @@
     "retrieved_at": "2026-10-05T00:49:00.639356+00:00",
     "download_sha256": "7d505e33bd6db171ee5a7bf8d6c7dca59d9b7e3dfea6a213a24b74e6922e0572",
     "transformation": "Commons thumbnail where available; EXIF orientation applied; RGB; aspect-preserving maximum 1280 px; JPEG quality 90; all EXIF/GPS/IPTC removed; no crop.",
-    "acquisition_status": "pending_agent_review",
     "stored_sha256": "16cb0b381c3d6480c5a44a73e329365c087536c233acd4029b8ecef22be634e6",
     "filename": "images/commons-f5eb1a435d.jpg",
     "agent_review": {
@@ -1664,6 +1705,8 @@
       "reviewed_at": "2026-10-05T01:00:46.782748+00:00",
       "evidence": "Detached road-name panel lies tilted at the base of its post.",
       "location": "Roscavey Road, United Kingdom"
-    }
+    },
+    "acquisition_status_at_download": "pending_agent_review",
+    "review_status": "agent_reviewed"
   }
 ]

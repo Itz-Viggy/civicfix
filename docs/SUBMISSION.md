@@ -37,12 +37,13 @@ Image storage: 13,020,816 bytes (12.418 MiB). Labels and review are agent-curate
 | Docker execution tested | BLOCKED | Docker CLI/daemon unavailable; build and container execution unverified. |
 | Proposal changes documented | PASS | Targeted proposed text for 2.3–2.7; no original proposal document existed. |
 | Sensitive content excluded | PASS | Image/privacy review, metadata stripping and task-file/history scan; unsafe originals excluded. |
-| Outputs saved | PASS | Notebook JSON validated; all code cells executed; real PNG previews; zero error outputs. |
+| Outputs saved | PASS | Notebook JSON validated; all code cells executed; embedded real JPEG/PNG previews; zero error outputs. |
 | GitHub work available | PASS | Branch pushed; remote file and SHA checks verified. See delivery verification below. |
+| Native GitHub notebook rendering | BLOCKED | Browser viewer returned “Unable to render code block”; actual saved-output Markdown fallback provided in NOTEBOOK_PREVIEW.md. |
 | Instructor access | BLOCKED | Private repository; no identified/authorized instructor account and no instructor invitation configured. |
 
 ## Remaining actions and limits
 
 Instructor access is not confirmed. Supply the instructor's GitHub account and authorize an invitation before submission of private links; do not assume the instructor can view them. Docker execution needs a machine with Docker. Hydrant, nighttime, weather and Gainesville-specific coverage remain data gaps; independent label validation and model evaluation have not been performed. The current Gemini prior-user restriction remains a proposal dependency, not a notebook execution blocker.
 
-Delivery verification is recorded in `VERIFICATION.md`. Browser rendering status is reported there separately from successful remote file checks.
+Delivery verification is recorded in [VERIFICATION](VERIFICATION.md). Native GitHub notebook rendering remains blocked by a preview error; [NOTEBOOK_PREVIEW](NOTEBOOK_PREVIEW.md) shows the actual saved grid and statistics. Successful execution and remote file delivery are verified independently.

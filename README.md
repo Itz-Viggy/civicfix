@@ -4,6 +4,8 @@ CivicFix plans to recognize Gainesville-area nonemergency issues from user photo
 
 **[Executed playground.ipynb](https://github.com/Itz-Viggy/civicfix/blob/dataset-playground/playground.ipynb)** · **[Working branch](https://github.com/Itz-Viggy/civicfix/tree/dataset-playground)**
 
+GitHub's notebook viewer returned a preview error during inspection. [Saved output preview](docs/NOTEBOOK_PREVIEW.md) shows the actual grid and statistics in Markdown; the validated notebook retains its outputs for download/opening in Jupyter. [Verification details](docs/VERIFICATION.md) distinguish successful execution/file delivery from this rendering limitation.
+
 The **CivicFix Commons Curated Collection v1** contains **43 photographs**, stored in `data/images/` with one record per image in `data/labels.csv`. This convenience sample is agent-reviewed, not independently human-validated and not an official benchmark. Actual image storage is **13,020,816 bytes (12.418 MiB)**. The small approved subset is sufficient for repository storage under the 25 MiB working budget. No external storage or paid infrastructure is required.
 
 | Category | Images |
