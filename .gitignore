@@ -11,4 +11,4 @@ __pycache__/
 *.key
 .DS_Store
 CIVICFIX_DATASET_SPEC.md
-docs/**
+docs/
