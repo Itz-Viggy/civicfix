@@ -1,0 +1,17 @@
+# Allow only this notebook's runtime files into the build context.
+*
+!Dockerfile
+!requirements.txt
+!playground.ipynb
+!scripts/
+!scripts/**
+!data/
+!data/**
+!docs/
+!docs/**
+**/__pycache__
+**/.ipynb_checkpoints
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
