@@ -11,4 +11,15 @@ __pycache__/
 *.key
 .DS_Store
 CIVICFIX_DATASET_SPEC.md
-docs/
+# Future application and inference artifacts must stay outside the dataset.
+node_modules/
+.next/
+.venv-api/
+.venv-inference/
+.runtime/
+model-weights/
+*.safetensors
+*.gguf
+
+# Private planning and reference material stays local.
+/docs/
