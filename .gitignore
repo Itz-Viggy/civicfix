@@ -11,9 +11,6 @@ __pycache__/
 *.key
 .DS_Store
 CIVICFIX_DATASET_SPEC.md
-docs/
-# Keep the supplied draft locally; the canonical PRD is tracked in docs/.
-/docs/CivicFix_Development_PRD_Draft.md
 # Future application and inference artifacts must stay outside the dataset.
 node_modules/
 .next/
@@ -23,3 +20,6 @@ node_modules/
 model-weights/
 *.safetensors
 *.gguf
+
+# Private planning and reference material stays local.
+/docs/

@@ -8,12 +8,7 @@ The app ends at **Prepare Report** → **Report Prepared**: **Your report is rea
 
 Stage 0 establishes the repository baseline and design contracts. There is no runnable web app or model integration yet.
 
-- [Development PRD](docs/CIVICFIX_DEVELOPMENT_PRD.md)
-- [Stage tracker and next runnable task](docs/IMPLEMENTATION_STATUS.md)
-- [Stage 0 baseline, dependencies, compute and hosting prerequisites](docs/STAGE_0_BASELINE.md)
-- [Draft fields, API, lifecycle and folder layout](docs/APP_CONTRACT.md)
-- [Inference contract and configuration](docs/INFERENCE_CONTRACT.md)
-- [Acceptance checklist](docs/ACCEPTANCE_CHECKLIST.md)
+Planning documents and contracts stay local in the ignored `docs/` directory. The next implementation task is Stage 1A: shared schemas, provider interface, validated configuration, and simulated tests.
 
 The documents below describe the existing dataset milestone. Historical Gemini-only planning is superseded by the current PRD: self-hosted open source inference is required, and Gemini is an optional comparison adapter.
 
@@ -21,7 +16,7 @@ The documents below describe the existing dataset milestone. Historical Gemini-o
 
 **[Executed playground.ipynb](https://github.com/Itz-Viggy/civicfix/blob/dataset-playground/playground.ipynb)** · **[Working branch](https://github.com/Itz-Viggy/civicfix/tree/dataset-playground)**
 
-GitHub's notebook viewer returned a preview error during inspection. [Saved output preview](docs/NOTEBOOK_PREVIEW.md) shows the actual grid and statistics in Markdown; the validated notebook retains its outputs for download/opening in Jupyter. [Verification details](docs/VERIFICATION.md) distinguish successful execution/file delivery from this rendering limitation.
+GitHub's notebook viewer returned a preview error during inspection. `docs/NOTEBOOK_PREVIEW.md` (local only) shows the actual grid and statistics in Markdown; the validated notebook retains its outputs for download/opening in Jupyter. `docs/VERIFICATION.md` (local only) distinguishes successful execution/file delivery from this rendering limitation.
 
 The **CivicFix Commons Curated Collection v1** contains **43 photographs**, stored in `data/images/` with one record per image in `data/labels.csv`. This convenience sample is agent-reviewed, not independently human-validated and not an official benchmark. Actual image storage is **13,020,816 bytes (12.418 MiB)**. The small approved subset is sufficient for repository storage under the 25 MiB working budget. No external storage or paid infrastructure is required.
 
@@ -96,10 +91,10 @@ Docker CLI/daemon are unavailable on the development machine. The Dockerfile and
 
 ## Provenance, rights and limitations
 
-Every included image has author, original title, original/file-page URL, selected download URL, source revision/version, license/version/URL, actual UTC retrieval timestamp, agent label evidence and stored-image checksum. [DATA_SOURCES](docs/DATA_SOURCES.md), [source_records.json](docs/source_records.json) and [candidate_review.csv](docs/candidate_review.csv) preserve attribution, permission checks, transformations and exclusions. Licenses are {'CC BY-SA 2.0': 17, 'CC BY-SA 4.0': 15, 'CC BY 2.0': 1, 'CC BY 4.0': 2, 'Public domain': 3, 'CC BY-SA 3.0': 1, 'CC0': 4}. Individual photo licenses remain in force, including the same-version share-alike terms for transformed CC BY-SA photos; no blanket project code license covers the photographs.
+Every included image has author, original title, original/file-page URL, selected download URL, source revision/version, license/version/URL, actual UTC retrieval timestamp, agent label evidence and stored-image checksum. `docs/DATA_SOURCES.md` (local only), `docs/source_records.json` (local only) and `docs/candidate_review.csv` (local only) preserve attribution, permission checks, transformations and exclusions. Licenses are {'CC BY-SA 2.0': 17, 'CC BY-SA 4.0': 15, 'CC BY 2.0': 1, 'CC BY 4.0': 2, 'Public domain': 3, 'CC BY-SA 3.0': 1, 'CC0': 4}. Individual photo licenses remain in force, including the same-version share-alike terms for transformed CC BY-SA photos; no blanket project code license covers the photographs.
 
 JPEG derivatives have EXIF/GPS removed and a maximum 1280-pixel side. Cached 330-pixel thumbnails were used for some small originals, with retained defect evidence reviewed after conversion. Other originals remain reachable only at their source sites. No sensitive originals, people/plate crops, credentials or temporary downloads were committed.
 
-Coverage is uneven: leaking hydrants remain below the approximate ten-per-class target. Nonlocal convenience photos do not validate Gainesville routing. Agent interpretation needs independent review; lighting, weather, geography and capture dates are uneven or unrecorded. The notebook checks byte duplicates and screens near duplicates, but does not prove event independence. [DATA_QUALITY](docs/DATA_QUALITY.md) reports measured results and remaining gaps.
+Coverage is uneven: leaking hydrants remain below the approximate ten-per-class target. Nonlocal convenience photos do not validate Gainesville routing. Agent interpretation needs independent review; lighting, weather, geography and capture dates are uneven or unrecorded. The notebook checks byte duplicates and screens near duplicates, but does not prove event independence. `docs/DATA_QUALITY.md` (local only) reports measured results and remaining gaps.
 
-[MODEL_NOTES](docs/MODEL_NOTES.md) records the exact planned `gemini-2.5-flash-lite` API model, official terms and the current prior-user access restriction. No replacement model or accuracy result is claimed. [PROPOSAL_UPDATES](docs/PROPOSAL_UPDATES.md) provides targeted replacement text; no proposal document was supplied. [SUBMISSION](docs/SUBMISSION.md) contains links and the acceptance checklist.
+`docs/MODEL_NOTES.md` (local only) records the exact planned `gemini-2.5-flash-lite` API model, official terms and the current prior-user access restriction. No replacement model or accuracy result is claimed. `docs/PROPOSAL_UPDATES.md` (local only) provides targeted replacement text; no proposal document was supplied. `docs/SUBMISSION.md` (local only) contains links and the acceptance checklist.
