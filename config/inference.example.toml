@@ -1,0 +1,23 @@
+# DESIGN EXAMPLE: Stage 1A implements validation/loading. All results are simulated.
+contract_version = 1
+provider = "deterministic"
+model_id = "fixtures-v1"
+timeout_seconds = 30
+max_attempts = 2
+max_output_tokens = 512
+prompt_version = "issue-v1"
+preprocessing_version = "rgb-jpeg-1280-v1"
+fallback_policy = "none"
+
+# Self-hosted: replace provider/model_id, then add an approved private base_url.
+# provider = "self_hosted"
+# model_id = "Qwen/Qwen3-VL-4B-Instruct"
+# base_url = "http://127.0.0.1:8080/v1"
+# api_key_env = "CIVICFIX_SELF_HOSTED_API_KEY" # only if serving uses authentication
+# model_revision = "<verified artifact commit>"
+# quantization = "<verified artifact or none>"
+
+# Gemini: replace provider/model_id and reference a server-side secret; no base_url.
+# provider = "gemini"
+# model_id = "gemini-2.5-flash-lite"
+# api_key_env = "GEMINI_API_KEY"

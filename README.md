@@ -1,6 +1,23 @@
-# CivicFix dataset playground
+# CivicFix
 
-CivicFix plans to recognize Gainesville-area nonemergency issues from user photos with hosted Gemini inference, then use location and rules for routing and user review. This milestone prepares and inspects real images; it does not implement the application or measure model accuracy.
+CivicFix will help users prepare Gainesville-area nonemergency issue reports from photos, confirmed locations, and optional observations. Vision models suggest a category and description through a provider independent interface; deterministic rules resolve destinations. Users review and correct the report for separate manual submission.
+
+The app ends at **Prepare Report** → **Report Prepared**: **Your report is ready for manual submission. It has not been sent to an authority.** There is no authority submission or tracking integration.
+
+## Application development
+
+Stage 0 establishes the repository baseline and design contracts. There is no runnable web app or model integration yet.
+
+- [Development PRD](docs/CIVICFIX_DEVELOPMENT_PRD.md)
+- [Stage tracker and next runnable task](docs/IMPLEMENTATION_STATUS.md)
+- [Stage 0 baseline, dependencies, compute and hosting prerequisites](docs/STAGE_0_BASELINE.md)
+- [Draft fields, API, lifecycle and folder layout](docs/APP_CONTRACT.md)
+- [Inference contract and configuration](docs/INFERENCE_CONTRACT.md)
+- [Acceptance checklist](docs/ACCEPTANCE_CHECKLIST.md)
+
+The documents below describe the existing dataset milestone. Historical Gemini-only planning is superseded by the current PRD: self-hosted open source inference is required, and Gemini is an optional comparison adapter.
+
+## Dataset playground
 
 **[Executed playground.ipynb](https://github.com/Itz-Viggy/civicfix/blob/dataset-playground/playground.ipynb)** · **[Working branch](https://github.com/Itz-Viggy/civicfix/tree/dataset-playground)**
 
