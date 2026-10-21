@@ -1,0 +1,11 @@
+{
+  "architecture": "ViT-B-32",
+  "pretrained_tag": "openai",
+  "source_url": "https://openaipublic.azureedge.net/clip/models/40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af/ViT-B-32.pt",
+  "sha256": "40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af",
+  "local_path": ".runtime/models/clip/ViT-B-32.pt",
+  "runtime": "open_clip_torch==3.3.0",
+  "license": "OpenAI CLIP MIT license; research intended-use limitations in model card",
+  "license_url": "https://github.com/openai/CLIP/blob/main/LICENSE",
+  "model_card": "https://github.com/openai/CLIP/blob/main/model-card.md"
+}

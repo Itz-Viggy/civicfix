@@ -1,0 +1,30 @@
+{
+  "version": "v2-dumping-visual-coverage",
+  "prompts": {
+    "pothole": [
+      "A photo of a pothole in an asphalt road.",
+      "A photo of missing pavement forming a hole in a road surface.",
+      "A photo of a damaged road surface with a pothole."
+    ],
+    "broken_streetlight": [
+      "A photo of a damaged streetlight fixture.",
+      "A photo of a broken streetlight pole or lamp.",
+      "A photo of a streetlight with visible structural damage."
+    ],
+    "damaged_sign": [
+      "A photo of a bent or damaged traffic sign.",
+      "A photo of a broken street sign or signpost.",
+      "A photo of a fallen road sign."
+    ],
+    "leaking_hydrant": [
+      "A photo of a fire hydrant with escaping water.",
+      "A photo of water spraying from a fire hydrant.",
+      "A photo of a leaking fire hydrant."
+    ],
+    "illegal_dumping": [
+      "A photo of an abandoned household appliance or bulky waste discarded outdoors.",
+      "A photo of dumped branches, garden waste, or rubbish on abandoned pavement.",
+      "A photo of discarded furniture, appliances, and debris beside a road."
+    ]
+  }
+}

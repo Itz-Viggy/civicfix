@@ -4,6 +4,12 @@ CivicFix will help users prepare Gainesville-area nonemergency issue reports fro
 
 The app ends at **Prepare Report** → **Report Prepared**: **Your report is ready for manual submission. It has not been sent to an authority.** There is no authority submission or tracking integration.
 
+## First Model Exploration homework
+
+The standalone [executed OpenCLIP notebook](experiments/first_model_exploration/training_experiments.ipynb) benchmarks five-category classification on the 43 development photos designated by Milestone 3 Section 6.5. Baseline: **40/43**, macro-F1 **0.9101**; one dumping-prompt revision: **41/43**, macro-F1 **0.9304**. Both are real local CPU inference, with no paid services. These reused-set results do not establish held-out accuracy.
+
+See the [experiment setup](experiments/first_model_exploration/README.md), [submission note](experiments/first_model_exploration/SUBMISSION.md), and [assignment verification](experiments/first_model_exploration/ASSIGNMENT_CHECKLIST.md). CLIP remains benchmark-only; the full application roadmap is separate.
+
 ## Application development
 
 Stage 0 establishes the repository baseline and design contracts. There is no runnable web app or model integration yet.
@@ -48,7 +54,7 @@ The executor launches this environment's Python in a fresh kernel, stops on cell
 
 Default `github` mode downloads the manifest and only its listed images through the GitHub API into a new empty ignored `.cache/inspection-*` directory on each run. The retrieval helper validates safe relative paths, the manifest SHA-256, all image SHA-256 values and decoding, with three bounded network attempts and four download workers. It does not search for new images or overwrite tracked images, labels or acquisition dates.
 
-- Repository: [https://github.com/Itz-Viggy/civicfix](https://github.com/Itz-Viggy/civicfix), **private**.
+- Repository: [https://github.com/Itz-Viggy/civicfix](https://github.com/Itz-Viggy/civicfix), **public** (visibility verified October 21, 2026; no setting changed).
 - Dataset version: `v1`.
 - Immutable dataset commit: [`8394bf6d0d84c9dbf33e69258f0cd15ee4795ca4`](https://github.com/Itz-Viggy/civicfix/commit/8394bf6d0d84c9dbf33e69258f0cd15ee4795ca4). This dataset commit was pushed before the notebook implementation; retrieval does not point at the later notebook commit.
 - Manifest SHA-256: `98f8e250316df8c1517b381445d05dbc8a98813020930438a506e72e75dd28f9`.
@@ -60,7 +66,7 @@ Sign in to GitHub with an account that can read this repository:
 gh auth login --hostname github.com
 ```
 
-Alternatively supply `GITHUB_TOKEN` (or `GH_TOKEN`) through the environment/secret manager with repository read access. Never paste credentials into notebook cells or committed files. The helper reads credentials into memory without printing or writing them. Private repository access must be granted before an instructor can clone, view the notebook or retrieve its data. No instructor account was identified and no invitation was sent.
+Alternatively supply `GITHUB_TOKEN` (or `GH_TOKEN`) through the environment/secret manager with repository read access. Never paste credentials into notebook cells or committed files. The helper reads credentials into memory without printing or writing them. The pinned historical dataset retrieval configuration still requests authenticated access. GitHub currently reports the repository public, so the published notebook links are viewable without an invitation. Private planning documents remain local and untracked.
 
 A documented offline/local mode copies the tracked collection from a clean clone and validates the same hashes. It proves local reproducibility, not GitHub download access:
 

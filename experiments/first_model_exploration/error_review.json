@@ -1,0 +1,41 @@
+{
+  "reviewer": "Codex agent visual inspection; no independent human review",
+  "selection": "All 3 baseline errors, 2 lowest-margin correct outputs, plus remaining hydrants (7 cases total)",
+  "cases": [
+    {
+      "image_id": "commons-d5575814f4",
+      "observation": "Water covers a lane; no hydrant body is visible.",
+      "possible_cause": "Caption-dependent ground truth is not identifiable from these pixels. Largest wrong margin among the three errors; cosine margin is not calibrated confidence."
+    },
+    {
+      "image_id": "commons-7b78ffad33",
+      "observation": "Branches and scattered debris lie across abandoned pavement; waste is spread out rather than a compact household rubbish pile.",
+      "possible_cause": "Road texture competes with sparse garden-waste evidence; baseline dumping prompts overemphasize piles."
+    },
+    {
+      "image_id": "commons-d374fa7f87",
+      "observation": "A large discarded appliance rests beside vegetation; no intact streetlight is visible.",
+      "possible_cause": "Single bulky appliance is under-described by pile-focused prompts; metal housing may resemble fixture debris. Legality requires external context."
+    },
+    {
+      "image_id": "commons-9763aaca53",
+      "observation": "Fallen metal lamp/post components lie on paving. Correct but the top-two margin is small.",
+      "possible_cause": "Broken metal hardware overlaps the visual appearance of signposts and dumped objects."
+    },
+    {
+      "image_id": "commons-359e62bbe5",
+      "observation": "Bulky furniture and debris sit beside a damaged road. Correct with a small margin.",
+      "possible_cause": "Pothole-like road texture competes with waste in a wide scene; original center crop may lose peripheral objects."
+    },
+    {
+      "image_id": "commons-1b000da556",
+      "observation": "Water emerges from a pavement opening; no exposed hydrant body. Correct category but source context supports the label.",
+      "possible_cause": "A correct forced-choice prediction does not demonstrate recognition of an unseen hydrant or the leak source."
+    },
+    {
+      "image_id": "commons-d86039e488",
+      "observation": "A visible hydrant has a tall water plume. Correct and a larger margin than the caption-dependent cases.",
+      "possible_cause": "This is the clearest visual hydrant example; one clear case cannot establish generalization."
+    }
+  ]
+}
