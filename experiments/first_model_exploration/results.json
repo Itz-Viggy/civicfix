@@ -1,0 +1,553 @@
+{
+  "dataset": {
+    "dataset_version": "v1",
+    "dataset_commit": "8394bf6d0d84c9dbf33e69258f0cd15ee4795ca4",
+    "manifest_sha256": "98f8e250316df8c1517b381445d05dbc8a98813020930438a506e72e75dd28f9",
+    "pool_n": 43,
+    "development_n": 43
+  },
+  "baseline": {
+    "configuration": {
+      "model": "ViT-B-32",
+      "pretrained_tag": "openai",
+      "checkpoint_sha256": "40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af",
+      "device": "cpu",
+      "precision": "float32",
+      "batch_size": 1,
+      "threads": 4,
+      "activation": "QuickGELU (OpenAI checkpoint native)",
+      "seed": 6216,
+      "deterministic_algorithms": true,
+      "training_budget": "none (pretrained inference)",
+      "tokenizer": "SimpleTokenizer",
+      "tokenizer_bpe_sha256": "924691ac288e54409236115652ad4aa250f48203de50a9e4722a6ecd48d6804a",
+      "context_length": 77,
+      "preprocess": "Compose(\n    Resize(size=224, interpolation=bicubic, max_size=None, antialias=True)\n    CenterCrop(size=(224, 224))\n    MaybeConvertMode()\n    MaybeToTensor()\n    Normalize(mean=(0.48145466, 0.4578275, 0.40821073), std=(0.26862954, 0.26130258, 0.27577711))\n)",
+      "platform": "Darwin",
+      "machine": "arm64",
+      "python": "3.12.15",
+      "packages": {
+        "torch": "2.14.1",
+        "torchvision": "0.29.1",
+        "open_clip_torch": "3.3.0",
+        "Pillow": "12.3.0",
+        "numpy": "2.5.3",
+        "pandas": "3.0.6"
+      },
+      "score_method": "normalize each prompt; mean 3 per class; normalize prototype; normalized image dot prototype",
+      "tie_break": "first in declared category order",
+      "categories": [
+        "pothole",
+        "broken_streetlight",
+        "damaged_sign",
+        "leaking_hydrant",
+        "illegal_dumping"
+      ],
+      "backend": "local Mac CPU; no image upload",
+      "service_cost_usd": 0,
+      "service_cost_note": "No API/compute service charge; electricity and owned hardware not priced",
+      "prompts": {
+        "version": "v1",
+        "prompts": {
+          "pothole": [
+            "A photo of a pothole in an asphalt road.",
+            "A photo of missing pavement forming a hole in a road surface.",
+            "A photo of a damaged road surface with a pothole."
+          ],
+          "broken_streetlight": [
+            "A photo of a damaged streetlight fixture.",
+            "A photo of a broken streetlight pole or lamp.",
+            "A photo of a streetlight with visible structural damage."
+          ],
+          "damaged_sign": [
+            "A photo of a bent or damaged traffic sign.",
+            "A photo of a broken street sign or signpost.",
+            "A photo of a fallen road sign."
+          ],
+          "leaking_hydrant": [
+            "A photo of a fire hydrant with escaping water.",
+            "A photo of water spraying from a fire hydrant.",
+            "A photo of a leaking fire hydrant."
+          ],
+          "illegal_dumping": [
+            "A photo of discarded rubbish piled beside a road.",
+            "A photo of a pile of dumped household waste.",
+            "A photo of discarded debris on the ground."
+          ]
+        }
+      },
+      "prompt_sha256": "0006f52eae7e950d089c83440780fd938999871627ce407fd079909e2a684e34",
+      "split_sha256": "44afcd93b49ff4cab1a432ebc4fb2396f0193b42fe706e54c2fff8614c654990",
+      "development_ids": [
+        "commons-04258228ae",
+        "commons-0a68e3b438",
+        "commons-0f02ab33ca",
+        "commons-1b000da556",
+        "commons-1be7ba9610",
+        "commons-1ce17d43d9",
+        "commons-2409b4bbcb",
+        "commons-289e64dab5",
+        "commons-359e62bbe5",
+        "commons-3e69e554ed",
+        "commons-47aa637b4d",
+        "commons-4be599b76a",
+        "commons-4c4c4bc5e0",
+        "commons-5000667ac9",
+        "commons-53a0d4c79e",
+        "commons-7b78ffad33",
+        "commons-81da3dfe1b",
+        "commons-84bcb35daa",
+        "commons-8ecf201b0b",
+        "commons-9019e613c0",
+        "commons-91f5ab98d5",
+        "commons-9271f8fbbf",
+        "commons-951c65e3fc",
+        "commons-95929b7145",
+        "commons-9763aaca53",
+        "commons-a39e024474",
+        "commons-a3ff7b5c1d",
+        "commons-b1418840a5",
+        "commons-bb9ea4bd37",
+        "commons-be90c97f20",
+        "commons-c9de6a8517",
+        "commons-c9f45e0429",
+        "commons-d374fa7f87",
+        "commons-d5575814f4",
+        "commons-d6849d80e8",
+        "commons-d86039e488",
+        "commons-dbe1344c9f",
+        "commons-dca2e40d63",
+        "commons-ddf392a527",
+        "commons-dfd2cf17b6",
+        "commons-e6dea1ae8d",
+        "commons-eddb29d0cf",
+        "commons-f5eb1a435d"
+      ],
+      "manifest_sha256": "98f8e250316df8c1517b381445d05dbc8a98813020930438a506e72e75dd28f9",
+      "dataset_version": "v1",
+      "dataset_commit": "8394bf6d0d84c9dbf33e69258f0cd15ee4795ca4",
+      "timing": "perf_counter from file open/decode/RGB through native preprocessing, encoder, scoring and CPU result; excludes persistence, labels, setup and text prototypes",
+      "model_load_seconds": 2.698428417003015,
+      "first_call_in_process": true,
+      "configuration_sha256": "de6c0f34d4c33b14489d7781ebc0cd519f14b9cb4389c0442c9fb269d495cbf9"
+    },
+    "metrics": {
+      "attempted_n": 43,
+      "successful_predictions": 43,
+      "failures": 0,
+      "correct": 40,
+      "accuracy": 0.9302325581395349,
+      "macro_f1": 0.9100721500721501,
+      "per_class": [
+        {
+          "category": "pothole",
+          "precision": 0.8333333333333334,
+          "recall": 1.0,
+          "f1": 0.9090909090909091,
+          "support": 10,
+          "correct": 10
+        },
+        {
+          "category": "broken_streetlight",
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10,
+          "correct": 10
+        },
+        {
+          "category": "damaged_sign",
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10,
+          "correct": 10
+        },
+        {
+          "category": "leaking_hydrant",
+          "precision": 1.0,
+          "recall": 0.6666666666666666,
+          "f1": 0.8,
+          "support": 3,
+          "correct": 2
+        },
+        {
+          "category": "illegal_dumping",
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.888888888888889,
+          "support": 10,
+          "correct": 8
+        }
+      ],
+      "confusion_matrix": [
+        [
+          10,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          8,
+          0
+        ]
+      ],
+      "confusion_columns": [
+        "pothole",
+        "broken_streetlight",
+        "damaged_sign",
+        "leaking_hydrant",
+        "illegal_dumping",
+        "execution_failure"
+      ],
+      "latency_seconds": {
+        "mean": 0.03965478195256532,
+        "median": 0.0403874579933472,
+        "p95": 0.05080613689788151,
+        "maximum": 0.06567287500365637
+      },
+      "under_10_seconds": 43,
+      "failure_handling": "All attempted cases in denominator; failure is FN for actual class, no FP in supported classes; zero-division metrics set to zero",
+      "text_prototype_seconds": 0.1924030420195777,
+      "configuration_sha256": "de6c0f34d4c33b14489d7781ebc0cd519f14b9cb4389c0442c9fb269d495cbf9",
+      "first_image_seconds": 0.04109099999186583,
+      "model_load_seconds": 2.698428417003015
+    }
+  },
+  "revision": {
+    "configuration": {
+      "model": "ViT-B-32",
+      "pretrained_tag": "openai",
+      "checkpoint_sha256": "40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af",
+      "device": "cpu",
+      "precision": "float32",
+      "batch_size": 1,
+      "threads": 4,
+      "activation": "QuickGELU (OpenAI checkpoint native)",
+      "seed": 6216,
+      "deterministic_algorithms": true,
+      "training_budget": "none (pretrained inference)",
+      "tokenizer": "SimpleTokenizer",
+      "tokenizer_bpe_sha256": "924691ac288e54409236115652ad4aa250f48203de50a9e4722a6ecd48d6804a",
+      "context_length": 77,
+      "preprocess": "Compose(\n    Resize(size=224, interpolation=bicubic, max_size=None, antialias=True)\n    CenterCrop(size=(224, 224))\n    MaybeConvertMode()\n    MaybeToTensor()\n    Normalize(mean=(0.48145466, 0.4578275, 0.40821073), std=(0.26862954, 0.26130258, 0.27577711))\n)",
+      "platform": "Darwin",
+      "machine": "arm64",
+      "python": "3.12.15",
+      "packages": {
+        "torch": "2.14.1",
+        "torchvision": "0.29.1",
+        "open_clip_torch": "3.3.0",
+        "Pillow": "12.3.0",
+        "numpy": "2.5.3",
+        "pandas": "3.0.6"
+      },
+      "score_method": "normalize each prompt; mean 3 per class; normalize prototype; normalized image dot prototype",
+      "tie_break": "first in declared category order",
+      "categories": [
+        "pothole",
+        "broken_streetlight",
+        "damaged_sign",
+        "leaking_hydrant",
+        "illegal_dumping"
+      ],
+      "backend": "local Mac CPU; no image upload",
+      "service_cost_usd": 0,
+      "service_cost_note": "No API/compute service charge; electricity and owned hardware not priced",
+      "prompts": {
+        "version": "v2-dumping-visual-coverage",
+        "prompts": {
+          "pothole": [
+            "A photo of a pothole in an asphalt road.",
+            "A photo of missing pavement forming a hole in a road surface.",
+            "A photo of a damaged road surface with a pothole."
+          ],
+          "broken_streetlight": [
+            "A photo of a damaged streetlight fixture.",
+            "A photo of a broken streetlight pole or lamp.",
+            "A photo of a streetlight with visible structural damage."
+          ],
+          "damaged_sign": [
+            "A photo of a bent or damaged traffic sign.",
+            "A photo of a broken street sign or signpost.",
+            "A photo of a fallen road sign."
+          ],
+          "leaking_hydrant": [
+            "A photo of a fire hydrant with escaping water.",
+            "A photo of water spraying from a fire hydrant.",
+            "A photo of a leaking fire hydrant."
+          ],
+          "illegal_dumping": [
+            "A photo of an abandoned household appliance or bulky waste discarded outdoors.",
+            "A photo of dumped branches, garden waste, or rubbish on abandoned pavement.",
+            "A photo of discarded furniture, appliances, and debris beside a road."
+          ]
+        }
+      },
+      "prompt_sha256": "6c8b20ec7782ea38e54a5d73abd36845dedb948a6d314fadfe99ef2c3f4aa8d7",
+      "split_sha256": "44afcd93b49ff4cab1a432ebc4fb2396f0193b42fe706e54c2fff8614c654990",
+      "development_ids": [
+        "commons-04258228ae",
+        "commons-0a68e3b438",
+        "commons-0f02ab33ca",
+        "commons-1b000da556",
+        "commons-1be7ba9610",
+        "commons-1ce17d43d9",
+        "commons-2409b4bbcb",
+        "commons-289e64dab5",
+        "commons-359e62bbe5",
+        "commons-3e69e554ed",
+        "commons-47aa637b4d",
+        "commons-4be599b76a",
+        "commons-4c4c4bc5e0",
+        "commons-5000667ac9",
+        "commons-53a0d4c79e",
+        "commons-7b78ffad33",
+        "commons-81da3dfe1b",
+        "commons-84bcb35daa",
+        "commons-8ecf201b0b",
+        "commons-9019e613c0",
+        "commons-91f5ab98d5",
+        "commons-9271f8fbbf",
+        "commons-951c65e3fc",
+        "commons-95929b7145",
+        "commons-9763aaca53",
+        "commons-a39e024474",
+        "commons-a3ff7b5c1d",
+        "commons-b1418840a5",
+        "commons-bb9ea4bd37",
+        "commons-be90c97f20",
+        "commons-c9de6a8517",
+        "commons-c9f45e0429",
+        "commons-d374fa7f87",
+        "commons-d5575814f4",
+        "commons-d6849d80e8",
+        "commons-d86039e488",
+        "commons-dbe1344c9f",
+        "commons-dca2e40d63",
+        "commons-ddf392a527",
+        "commons-dfd2cf17b6",
+        "commons-e6dea1ae8d",
+        "commons-eddb29d0cf",
+        "commons-f5eb1a435d"
+      ],
+      "manifest_sha256": "98f8e250316df8c1517b381445d05dbc8a98813020930438a506e72e75dd28f9",
+      "dataset_version": "v1",
+      "dataset_commit": "8394bf6d0d84c9dbf33e69258f0cd15ee4795ca4",
+      "timing": "perf_counter from file open/decode/RGB through native preprocessing, encoder, scoring and CPU result; excludes persistence, labels, setup and text prototypes",
+      "model_load_seconds": 2.698428417003015,
+      "first_call_in_process": false,
+      "configuration_sha256": "f1e666ae7d6bb524ee015e3366d7171395a7e1bff6fcd388f5f06acda8cfb7d8"
+    },
+    "metrics": {
+      "attempted_n": 43,
+      "successful_predictions": 43,
+      "failures": 0,
+      "correct": 41,
+      "accuracy": 0.9534883720930233,
+      "macro_f1": 0.9304260651629074,
+      "per_class": [
+        {
+          "category": "pothole",
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10,
+          "correct": 10
+        },
+        {
+          "category": "broken_streetlight",
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10,
+          "correct": 10
+        },
+        {
+          "category": "damaged_sign",
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10,
+          "correct": 10
+        },
+        {
+          "category": "leaking_hydrant",
+          "precision": 1.0,
+          "recall": 0.6666666666666666,
+          "f1": 0.8,
+          "support": 3,
+          "correct": 2
+        },
+        {
+          "category": "illegal_dumping",
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526316,
+          "support": 10,
+          "correct": 9
+        }
+      ],
+      "confusion_matrix": [
+        [
+          10,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          9,
+          0
+        ]
+      ],
+      "confusion_columns": [
+        "pothole",
+        "broken_streetlight",
+        "damaged_sign",
+        "leaking_hydrant",
+        "illegal_dumping",
+        "execution_failure"
+      ],
+      "latency_seconds": {
+        "mean": 0.03925270248856937,
+        "median": 0.0397017500072252,
+        "p95": 0.048465645808028056,
+        "maximum": 0.05190812499495223
+      },
+      "under_10_seconds": 43,
+      "failure_handling": "All attempted cases in denominator; failure is FN for actual class, no FP in supported classes; zero-division metrics set to zero",
+      "text_prototype_seconds": 0.14734308299375698,
+      "configuration_sha256": "f1e666ae7d6bb524ee015e3366d7171395a7e1bff6fcd388f5f06acda8cfb7d8",
+      "first_image_seconds": 0.03298962500412017,
+      "model_load_seconds": 2.698428417003015
+    }
+  },
+  "comparison": [
+    {
+      "run": "baseline",
+      "model": "ViT-B-32 / openai / fp32 CPU",
+      "prompt_version": "v1",
+      "change": "none",
+      "correct/N": "40/43",
+      "accuracy": 0.9302325581395349,
+      "macro_F1": 0.9100721500721501,
+      "N": 43,
+      "failures": 0,
+      "latency_mean_s": 0.03965478195256532,
+      "latency_p95_s": 0.05080613689788151,
+      "service_USD": 0
+    },
+    {
+      "run": "revision",
+      "model": "ViT-B-32 / openai / fp32 CPU",
+      "prompt_version": "v2-dumping-visual-coverage",
+      "change": "dumping text only",
+      "correct/N": "41/43",
+      "accuracy": 0.9534883720930233,
+      "macro_F1": 0.9304260651629074,
+      "N": 43,
+      "failures": 0,
+      "latency_mean_s": 0.03925270248856937,
+      "latency_p95_s": 0.048465645808028056,
+      "service_USD": 0
+    }
+  ],
+  "changed_predictions": [
+    {
+      "image_id": "commons-7b78ffad33",
+      "expected": "illegal_dumping",
+      "baseline": "pothole",
+      "revision": "illegal_dumping",
+      "baseline_correct": false,
+      "revision_correct": true
+    },
+    {
+      "image_id": "commons-d374fa7f87",
+      "expected": "illegal_dumping",
+      "baseline": "broken_streetlight",
+      "revision": "illegal_dumping",
+      "baseline_correct": false,
+      "revision_correct": true
+    },
+    {
+      "image_id": "commons-dca2e40d63",
+      "expected": "illegal_dumping",
+      "baseline": "illegal_dumping",
+      "revision": "damaged_sign",
+      "baseline_correct": true,
+      "revision_correct": false
+    }
+  ],
+  "outcome": "helped on these development cases",
+  "external_socket_attempts": 0,
+  "limitations": [
+    "development set reused after error analysis",
+    "agent-curated labels",
+    "3 hydrants, 2 caption-dependent",
+    "mostly daylight/nonlocal photos",
+    "unknown overlap with original CLIP pretraining",
+    "closed-set classifier has no irrelevant-image rejection",
+    "no final held-out or concurrency/load evaluation",
+    "CPU local timing excludes full app workflow"
+  ]
+}
