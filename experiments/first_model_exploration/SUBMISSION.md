@@ -19,4 +19,10 @@ The original OpenAI CLIP artifact and OpenCLIP use MIT notices; the [model card]
 
 ## Repository hand-in
 
-Publication details will be filled only after the actual experiment commit is created and its remote branch is verified. GitHub reports the repository public (verified during H6); no visibility change or invitation was made. Private course documents and raw run artifacts remain local. H0–H6 complete this homework only, not the full app.
+Ready to submit. The published experiment commit and notebook were verified against GitHub's remote branch and contents API.
+
+- Notebook: [executed training_experiments.ipynb at the experiment commit](https://github.com/Itz-Viggy/civicfix/blob/12f2fda95e5ea87d0aae2ae35936219b63e64b59/experiments/first_model_exploration/training_experiments.ipynb)
+- Experiment commit: [`12f2fda95e5ea87d0aae2ae35936219b63e64b59`](https://github.com/Itz-Viggy/civicfix/commit/12f2fda95e5ea87d0aae2ae35936219b63e64b59)
+- Branch: [codex/first-model-exploration](https://github.com/Itz-Viggy/civicfix/tree/codex/first-model-exploration)
+
+GitHub reports the repository public (verified during H6); no visibility change or invitation was made. Private course documents and raw run artifacts remain local. H0–H6 complete this homework only, not the full app.

@@ -26,7 +26,7 @@ Checked against the original uploaded **EGN 6216, Fall 2026, Homework: First Mod
 | No technical failure disguised as result | Initial loader incompatibility documented and fixed before predictions; zero inference failures in completed runs | Pass |
 | Model source/license and data permissions | `model.json`, README source/license notes, unchanged per-photo attribution/rights manifest | Pass |
 | Save visible outputs; exclude credentials/large files | All code cells executed; two embedded plots; raw runs/weights ignored; only safe configs, aggregates and neutral-ID observations exported | Pass |
-| Push descriptive commit and actual link/identifier | Actual published experiment commit and notebook link recorded in `SUBMISSION.md`; verified during H6 | Pass after push verification |
+| Push descriptive commit and actual link/identifier | Actual published experiment commit and notebook link recorded in `SUBMISSION.md`; verified during H6 | Pass — remote commit and notebook blob verified |
 | Submission: short note, one row per run, initial stage/why | `SUBMISSION.md` includes candidate, initial result, limitation, change/effect, two-row configuration/score/N/runtime/cost table and stage rationale | Pass |
 | Prepare Section 7 role/candidates/config/results/next steps | Private local `docs/FIRST_MODEL_EXPLORATION_SECTION_7.md` draft | Pass locally; intentionally untracked |
 
