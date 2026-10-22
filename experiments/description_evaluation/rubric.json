@@ -1,0 +1,12 @@
+{
+  "version": "visual-claims-v1",
+  "scope": "Review all generated fields, including observations and clarification assertions, against pixels only. Category IDs are tentative taxonomy suggestions, not evidence of illegality or a confirmed fault. Do not use source captions as visible evidence.",
+  "unsupported_claim_count": "Count distinct unsupported atomic assertions once per output, including hallucinated objects, incorrect relationships, inferred causes, measurements, locations, illegality, electrical/operating status or hidden hydrant identity. A hedged guess still counts if the photograph does not support it. Do not penalize explicitly stated uncertainty or a request for confirmation.",
+  "clarity": {"0": "Confusing, contradictory or unusable", "1": "Understandable with ambiguity or verbosity", "2": "Clear, concise and internally consistent"},
+  "specificity": {"0": "Generic or no useful visible detail", "1": "Some relevant visible detail", "2": "Identifies the main visible condition and a distinguishing visual detail"},
+  "missing_important_visible_fact": "True if a salient visible issue condition is omitted or replaced by a mistaken one; false for hidden/caption-only facts or irrelevant scenery. Factuality passing does not imply completeness.",
+  "special_checks": ["Water near a utility opening does not prove a hidden hydrant or cause", "An unlit daylight streetlight does not prove failure; visible physical damage can be stated", "Waste can be described without declaring dumping illegal"],
+  "reviewer_provenance": "Record actual reviewer identity/type, method, timestamp, exact generation hash and rubric hash. Agent visual review is not independent human validation.",
+  "failure_policy": "Generation errors and empty-description abstentions remain in attempted counts and cannot be reviewed as factuality passes. Report unreviewed outputs separately.",
+  "latency": "Measure local wall time from image decode/sanitization through synchronized completed generation and parsing, excluding model load and persistence. All attempts included; cold first image identified. Not application latency."
+}

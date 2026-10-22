@@ -1,0 +1,19 @@
+{
+  "stage": "D0",
+  "completed_utc": "2026-10-22T14:51:28.967802+00:00",
+  "selection_n": 20,
+  "tests_executed": ".venv-inference/clip/bin/python -m unittest experiments.description_evaluation.test_evaluation -v",
+  "tests_passed": 8,
+  "instructions": "No applicable AGENTS.md found in checkout or ancestor directories; addendum retained in ignored docs/.",
+  "starter_search": "No description_evaluation starter in repository or supplied Downloads matching files.",
+  "classification_baseline_commit": "f7a28ab",
+  "frozen_files": {
+    "selection.json": "29b4d099e1f43ba9236e19b5b031b037729e9c84126c436dd078b634c66b9f85",
+    "settings.json": "7558381f901159c007b62722968df111d0c2b4b6bf251d88aa62e871556ccc2f",
+    "prompts/v1.json": "015cfe29b2e692e08303230a00544d1476aaa0bf98503233898a323d951593a1",
+    "schemas.json": "1211e7f359b0a6a27e0209d2816dfc5e2f4cc38d73387d458be1a5706b7a30e2",
+    "rubric.json": "ef4979790cf357690e9223ca36c01f000de244b0f80c9ba38776317cdb4c92c3"
+  },
+  "setup_note": "Before D1: explicitly bound generator pixels to 768 max side, since MLX resize_shape can be ignored by Transformers processors; 8 D0 tests rerun successfully.",
+  "validation_note": "D0 tests rerun after explicit input resizing and two-sentence/60-word output validation, all 8 passed before D1."
+}

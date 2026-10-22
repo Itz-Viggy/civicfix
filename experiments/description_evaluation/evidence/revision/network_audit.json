@@ -1,0 +1,4 @@
+{
+  "denied_connection_attempts": 0,
+  "scope": "Python socket guard, not OS-wide"
+}

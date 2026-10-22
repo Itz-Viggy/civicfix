@@ -1,0 +1,40 @@
+{
+  "recorded_utc": "2026-10-22T15:10:32.122893+00:00",
+  "description_tests": {
+    "command": ".venv-inference/clip/bin/python -m unittest experiments.description_evaluation.test_evaluation -v",
+    "exit_code": 0,
+    "tests_run": 9,
+    "reported_duration_seconds": 1.525,
+    "result": "OK",
+    "provenance": "Recorded from actual unittest console output after adding the paired factuality/similarity regression test; fixtures are synthetic and never model evidence."
+  },
+  "existing_tests": {
+    "command": ".venv-inference/clip/bin/python -m unittest experiments.first_model_exploration.test_benchmark scripts.test_dataset_tools -v",
+    "tests_run": 13,
+    "exit_code": 0,
+    "full_output": "preservation_checks.json"
+  },
+  "additional_executed_checks": [
+    {
+      "command": ".venv-inference/clip/bin/python -m compileall -q experiments/description_evaluation",
+      "exit_code": 0
+    },
+    {
+      "command": ".venv-inference/clip/bin/python -m experiments.description_evaluation.report experiments/description_evaluation/evidence/baseline experiments/description_evaluation/evidence/revision .runtime/description-runs/recomputed-published.json",
+      "exit_code": 0
+    },
+    {
+      "command": "cmp experiments/description_evaluation/results.json .runtime/description-runs/recomputed-published.json",
+      "exit_code": 0,
+      "result": "Byte-for-byte match"
+    }
+  ],
+  "unique_unit_tests_passed": 22,
+  "not_executed": [
+    "Classification inference rerun (saved evidence verified instead)",
+    "Docker reproduction",
+    "Independent human validation",
+    "Held-out evaluation",
+    "Application load/acceptance tests"
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "description_evaluation_complete": true,
+  "development_only": true,
+  "stages": {
+    "D0": {
+      "status": "complete",
+      "evidence": [
+        "d0.json",
+        "../selection.json",
+        "../prompts/v1.json",
+        "../schemas.json",
+        "../rubric.json",
+        "../test_evaluation.py"
+      ],
+      "note": "20 IDs frozen before results; fixed contracts/harness and tests passed."
+    },
+    "D1": {
+      "status": "complete",
+      "attempted": 20,
+      "valid_generated": 16,
+      "failures": 4,
+      "evidence": [
+        "baseline/configuration.json",
+        "baseline/generations.jsonl",
+        "baseline/failure_diagnostics.jsonl"
+      ],
+      "note": "Actual local pinned Qwen generation, one attempt per photo."
+    },
+    "D2": {
+      "status": "complete",
+      "valid_scores": 16,
+      "skipped": 4,
+      "execution_errors": 0,
+      "evidence": [
+        "baseline/scorer_configuration.json",
+        "baseline/scores.jsonl",
+        "baseline/metrics.json"
+      ],
+      "note": "Reused verified CLIP checkpoint/transform/tokenizer; raw cosine only."
+    },
+    "D3": {
+      "status": "complete",
+      "reviewed": 16,
+      "zero_unsupported": 8,
+      "evidence": [
+        "baseline/reviews.jsonl",
+        "baseline/metrics.json"
+      ],
+      "note": "Agent visual review of all valid baseline outputs; provenance recorded; failures excluded from passes."
+    },
+    "D4": {
+      "status": "complete",
+      "attempted": 20,
+      "valid_generated": 15,
+      "reviewed": 15,
+      "failures": 5,
+      "shared_reviewed_pairs": 14,
+      "factuality_fixes": 1,
+      "factuality_regressions": 2,
+      "evidence": [
+        "prompt_change_before_revision.json",
+        "revision/configuration.json",
+        "revision/generations.jsonl",
+        "revision/reviews.jsonl",
+        "revision/scores.jsonl",
+        "../results.json"
+      ],
+      "note": "One prompt feature changed after baseline review; all other semantic configuration and implementation checks passed. Negative result."
+    },
+    "D5": {
+      "status": "complete",
+      "evidence": [
+        "../FINDINGS.md",
+        "../README.md",
+        "../results.json",
+        "validation.json",
+        "preservation_checks.json"
+      ],
+      "note": "Results, examples, limitations, instructions, recommendation and reproducible permitted evidence saved. 22 unique unit tests passed, existing evidence verified, published comparison recomputed exactly."
+    }
+  },
+  "execution_blockers": [],
+  "remaining_validation": [
+    "Independent human review",
+    "New held-out photos",
+    "Production/application validation outside D0-D5"
+  ],
+  "branch": "codex/description-evaluation-d0-d5"
+}

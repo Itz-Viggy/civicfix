@@ -1,0 +1,50 @@
+{
+  "executed_utc": "2026-10-22T14:55:01.017617+00:00",
+  "commands": [
+    {
+      "command": [
+        ".venv-inference/clip/bin/python",
+        "-m",
+        "unittest",
+        "experiments.first_model_exploration.test_benchmark",
+        "scripts.test_dataset_tools",
+        "-v"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "test_first_results_cannot_be_overwritten (experiments.first_model_exploration.test_benchmark.ConfigurationTests.test_first_results_cannot_be_overwritten) ... ok\ntest_one_change_guard_rejects_other_model_split_or_metric_changes (experiments.first_model_exploration.test_benchmark.ConfigurationTests.test_one_change_guard_rejects_other_model_split_or_metric_changes) ... ok\ntest_ties_and_invalid_scores (experiments.first_model_exploration.test_benchmark.ConfigurationTests.test_ties_and_invalid_scores) ... ok\ntest_coverage_and_simulation_rejected (experiments.first_model_exploration.test_benchmark.EvaluationTests.test_coverage_and_simulation_rejected) ... ok\ntest_failed_attempt_is_not_dropped (experiments.first_model_exploration.test_benchmark.EvaluationTests.test_failed_attempt_is_not_dropped) ... ok\ntest_development_selection_preserves_holdout (experiments.first_model_exploration.test_benchmark.SplitTests.test_development_selection_preserves_holdout) ... ok\ntest_missing_overlap_unknown_and_unverified_rejected (experiments.first_model_exploration.test_benchmark.SplitTests.test_missing_overlap_unknown_and_unverified_rejected) ... ok\ntest_scene_or_identical_bytes_cannot_cross_split (experiments.first_model_exploration.test_benchmark.SplitTests.test_scene_or_identical_bytes_cannot_cross_split) ... ok\ntest_bad_image_hash_fails (scripts.test_dataset_tools.RetrievalIntegrity.test_bad_image_hash_fails) ... ok\ntest_manifest_corruption_fails (scripts.test_dataset_tools.RetrievalIntegrity.test_manifest_corruption_fails) ... ok\ntest_paths_reject_traversal (scripts.test_dataset_tools.RetrievalIntegrity.test_paths_reject_traversal) ... ok\ntest_private_access_missing_fails (scripts.test_dataset_tools.RetrievalIntegrity.test_private_access_missing_fails) ... ok\ntest_reject_nonempty_cache (scripts.test_dataset_tools.RetrievalIntegrity.test_reject_nonempty_cache) ... ok\n\n----------------------------------------------------------------------\nRan 13 tests in 0.396s\n\nOK\n"
+    },
+    {
+      "command": [
+        ".venv-inference/clip/bin/python",
+        "-m",
+        "experiments.first_model_exploration.verify_submission"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS: 9 executed cells; two result plots; saved configurations/metrics; exact development IDs; no simulated evidence; private docs ignored/untracked; original data and architecture unchanged.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        ".venv-inference/clip/bin/python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "stdout": "No broken requirements found.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        ".venv-inference/qwen/bin/python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "stdout": "No broken requirements found.\n",
+      "stderr": ""
+    }
+  ]
+}

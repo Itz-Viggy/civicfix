@@ -1,0 +1,28 @@
+{
+  "files": {
+    "evidence/baseline/configuration.json": "1d4915e06122da9e6f755ba1cb74d3b23d09814347de49314bc41bad19e5aaa1",
+    "evidence/baseline/failure_diagnostics.jsonl": "f37c7794cb485045ea2edb970cff6c2ee500bd834b10567e72fb75ef6ac8b6a7",
+    "evidence/baseline/generations.jsonl": "b487807059c4d84659bb35faf64baa56ee5e60bde28960fe39c4e60c0fc3332e",
+    "evidence/baseline/metrics.json": "4f7b7ec30d60eb9c2fa101e2bec078c8e161eda6275690e55c6fc4d8e76dcbb5",
+    "evidence/baseline/network_audit.json": "d946cfce40d511770e8a03256da4c6a51f419d697867973d9ee8cc2930fce96f",
+    "evidence/baseline/reviews.jsonl": "5395aa511b3f6b804900f26da7b9ae2592826737c9f72fc901a79f5708e7afd8",
+    "evidence/baseline/scorer_audit.json": "3b2e29a5d6a9a5abaad34b66279a9bce81a6ef44d3ddd60c6899d31dfb08eb44",
+    "evidence/baseline/scorer_configuration.json": "c16aa7a6437da8d19af71e5033583ea52deecc7b1e7361a6796030d2dfc46c08",
+    "evidence/baseline/scores.jsonl": "deca1e9ab90f903ea5ffb4d86d4e15c7d6960e9471d46babf574265384cbf7b9",
+    "evidence/d0.json": "570f2d5b0ea3e1f6e99d4dfed9ce2704b082c6b23a0c2b4710b41a7dd7324cf6",
+    "evidence/preservation_checks.json": "2779ad17db10db233c9ff372cfedcacdd52911a0878657bf35f2269aa6bc4446",
+    "evidence/prompt_change_before_revision.json": "12a9850004cd4eb5a26d5e09672eb22c4b2dc192dd049673425a46babf0ba133",
+    "evidence/revision/configuration.json": "5320bbedfe60909e6d0beb8b162675c0d74f1c59ec39ca480ec7639e0be9c3fd",
+    "evidence/revision/failure_diagnostics.jsonl": "ac38f0b7ac351e858e7618480395728dec65696bb1500674beb38f489739a6ce",
+    "evidence/revision/generations.jsonl": "218ba0a2beebaaee1bf924157ba11b8ee2e0325a266e544820b34cd7a4a5eaa5",
+    "evidence/revision/metrics.json": "13aa20161e8817e42d5c71572bf7303ba78ed1fd29b51a893acf840b09ae3d0e",
+    "evidence/revision/network_audit.json": "d946cfce40d511770e8a03256da4c6a51f419d697867973d9ee8cc2930fce96f",
+    "evidence/revision/reviews.jsonl": "169761abd6411d83b2ecbdd56c4d6fe63fde6041a313e2d8b4b7bf8b8e0ec887",
+    "evidence/revision/scorer_audit.json": "3b2e29a5d6a9a5abaad34b66279a9bce81a6ef44d3ddd60c6899d31dfb08eb44",
+    "evidence/revision/scorer_configuration.json": "ec94929c0869e1a283a6f6858fab6444e813edb7d93d1762565268d072b40468",
+    "evidence/revision/scores.jsonl": "645e4627af3de8dc4c4a9b583a343402898bc5a5943e9eebe76baa1ea271be82",
+    "evidence/stage_status.json": "2b4c33418ff70624bbc983590ffdcb700ce93ac3c6a66e3822212dd8b15c59b0",
+    "evidence/validation.json": "7bb9f143974b3d6ba4ff33a43db45cd61a6081ce9ab1fba51a4f62d13d201f5b"
+  },
+  "results_sha256": "22d9ca5c2f599e93a18bef8b8dd59f862fe14c0b972e49200fd2a150b231108e"
+}
