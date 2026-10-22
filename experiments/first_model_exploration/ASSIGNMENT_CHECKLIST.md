@@ -1,6 +1,8 @@
-# Original assignment verification
+# Combined notebook and original assignment verification
 
 Checked against the original uploaded **EGN 6216, Fall 2026, Homework: First Model Exploration**, including all six steps, “Keep Your Evaluation Honest,” “Commit and Document,” “What to Submit,” and all seven final checklist items. [source_verification.json](source_verification.json) records the original source hashes; the source documents remain private. Requirements come from the assignment; the unrelated example-model rows and old PRD kickoff prompts are not additional implementation requests.
+
+The same notebook now also includes D0–D5: Qwen configuration/prompts, all 40 description attempts, 31 scores/reviews, one prompt change, paired comparisons, failures and visual examples. Description cells replay verified real evidence; the original CLIP outputs are retained. Submit the notebook on `main` using [SUBMISSION.md](SUBMISSION.md).
 
 | Requirement | Evidence | Result |
 | --- | --- | --- |

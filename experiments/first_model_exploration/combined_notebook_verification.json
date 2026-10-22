@@ -1,0 +1,48 @@
+{
+  "recorded_utc": "2026-10-22T15:23:18.019945+00:00",
+  "branch": "main",
+  "notebook_sha256": "91e8d9d42863abbd5c8bf33f66ca3fcc89ae2552044f7ba15ca358c5529e5056",
+  "original_classification_commit": "3d196ed",
+  "original_classification_code_cells_and_outputs_unchanged": true,
+  "classification_code_cells": 9,
+  "description_code_cells": 9,
+  "description_execution": "Fresh kernel executed actual validation/replay of saved real Qwen records; no new Qwen inference or visual review",
+  "execution_command": ".venv-inference/clip/bin/python -m experiments.first_model_exploration.execute_notebook --descriptions-only",
+  "visual_check": "Inspected rendered four-photo example figure; attribution and labels visible",
+  "checks": [
+    {
+      "command": [
+        ".venv-inference/clip/bin/python",
+        "-m",
+        "unittest",
+        "experiments.first_model_exploration.test_benchmark",
+        "experiments.description_evaluation.test_evaluation",
+        "scripts.test_dataset_tools",
+        "-v"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "test_first_results_cannot_be_overwritten (experiments.first_model_exploration.test_benchmark.ConfigurationTests.test_first_results_cannot_be_overwritten) ... ok\ntest_one_change_guard_rejects_other_model_split_or_metric_changes (experiments.first_model_exploration.test_benchmark.ConfigurationTests.test_one_change_guard_rejects_other_model_split_or_metric_changes) ... ok\ntest_ties_and_invalid_scores (experiments.first_model_exploration.test_benchmark.ConfigurationTests.test_ties_and_invalid_scores) ... ok\ntest_coverage_and_simulation_rejected (experiments.first_model_exploration.test_benchmark.EvaluationTests.test_coverage_and_simulation_rejected) ... ok\ntest_failed_attempt_is_not_dropped (experiments.first_model_exploration.test_benchmark.EvaluationTests.test_failed_attempt_is_not_dropped) ... ok\ntest_development_selection_preserves_holdout (experiments.first_model_exploration.test_benchmark.SplitTests.test_development_selection_preserves_holdout) ... ok\ntest_missing_overlap_unknown_and_unverified_rejected (experiments.first_model_exploration.test_benchmark.SplitTests.test_missing_overlap_unknown_and_unverified_rejected) ... ok\ntest_scene_or_identical_bytes_cannot_cross_split (experiments.first_model_exploration.test_benchmark.SplitTests.test_scene_or_identical_bytes_cannot_cross_split) ... ok\ntest_abstention_is_not_a_factuality_pass (experiments.description_evaluation.test_evaluation.EvaluationTests.test_abstention_is_not_a_factuality_pass) ... ok\ntest_controlled_change (experiments.description_evaluation.test_evaluation.EvaluationTests.test_controlled_change) ... ok\ntest_failures_remain_in_attempts_separate_from_factuality_and_scores (experiments.description_evaluation.test_evaluation.EvaluationTests.test_failures_remain_in_attempts_separate_from_factuality_and_scores) ... ok\ntest_identity_coverage_and_invalid_scores_rejected (experiments.description_evaluation.test_evaluation.EvaluationTests.test_identity_coverage_and_invalid_scores_rejected) ... ok\ntest_immutable_first_results (experiments.description_evaluation.test_evaluation.EvaluationTests.test_immutable_first_results) ... ok\ntest_paired_regression_is_independent_of_similarity_and_failures_remain (experiments.description_evaluation.test_evaluation.EvaluationTests.test_paired_regression_is_independent_of_similarity_and_failures_remain) ... ok\ntest_payload_contract_no_silent_repairs (experiments.description_evaluation.test_evaluation.EvaluationTests.test_payload_contract_no_silent_repairs) ... ok\ntest_review_is_bound_to_output_and_rubric (experiments.description_evaluation.test_evaluation.EvaluationTests.test_review_is_bound_to_output_and_rubric) ... ok\ntest_schemas_and_frozen_selection (experiments.description_evaluation.test_evaluation.EvaluationTests.test_schemas_and_frozen_selection) ... ok\ntest_bad_image_hash_fails (scripts.test_dataset_tools.RetrievalIntegrity.test_bad_image_hash_fails) ... ok\ntest_manifest_corruption_fails (scripts.test_dataset_tools.RetrievalIntegrity.test_manifest_corruption_fails) ... ok\ntest_paths_reject_traversal (scripts.test_dataset_tools.RetrievalIntegrity.test_paths_reject_traversal) ... ok\ntest_private_access_missing_fails (scripts.test_dataset_tools.RetrievalIntegrity.test_private_access_missing_fails) ... ok\ntest_reject_nonempty_cache (scripts.test_dataset_tools.RetrievalIntegrity.test_reject_nonempty_cache) ... ok\n\n----------------------------------------------------------------------\nRan 22 tests in 0.436s\n\nOK\n"
+    },
+    {
+      "command": [
+        ".venv-inference/clip/bin/python",
+        "-m",
+        "experiments.first_model_exploration.verify_submission"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS: one combined notebook, 18 executed cells (9 CLIP + 9 description evidence replay); original CLIP plots and description examples; verified real configurations/results/reviews; private docs ignored/untracked; original data and architecture unchanged.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

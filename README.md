@@ -6,13 +6,11 @@ The app ends at **Prepare Report** → **Report Prepared**: **Your report is rea
 
 ## First Model Exploration homework
 
-The standalone [executed OpenCLIP notebook](experiments/first_model_exploration/training_experiments.ipynb) benchmarks five-category classification on the 43 development photos designated by Milestone 3 Section 6.5. Baseline: **40/43**, macro-F1 **0.9101**; one dumping-prompt revision: **41/43**, macro-F1 **0.9304**. Both are real local CPU inference, with no paid services. These reused-set results do not establish held-out accuracy.
+Submit the [combined executed notebook](experiments/first_model_exploration/training_experiments.ipynb): OpenCLIP classification on 43 development photos, followed by Qwen3-VL descriptions, OpenCLIP alignment scores and factual reviews on a frozen 20-photo subset.
 
-See the [experiment setup](experiments/first_model_exploration/README.md), [submission note](experiments/first_model_exploration/SUBMISSION.md), and [assignment verification](experiments/first_model_exploration/ASSIGNMENT_CHECKLIST.md). CLIP remains benchmark-only; the full application roadmap is separate.
+Classification improved **40/43 → 41/43** after one dumping-prompt change. The description prompt change did not help: **16 → 15** valid outputs, **8/16 → 7/15** with zero unsupported claims under agent visual review. Both experiments use real local inference; similarity is separate from factuality, and no held-out/application acceptance is claimed.
 
-## Offline description evaluation
-
-The [completed D0–D5 description experiment](experiments/description_evaluation/FINDINGS.md) adds local Qwen3-VL-4B-Instruct generation and existing OpenCLIP cosine scoring on 20 frozen development photos. Baseline: 16 valid outputs, 8/16 with zero unsupported claims under agent visual review. One prompt change: 15 valid outputs, 7/15 with zero unsupported claims; one fix and two regressions on 14 shared reviewed cases. The change did not improve the result. [Code, configurations, outputs, reviews and reproduction instructions](experiments/description_evaluation/README.md) preserve failures separately from scores and factuality. This does not change the classifier or establish held-out/application performance.
+[Submission note](experiments/first_model_exploration/SUBMISSION.md) · [Reproduce](experiments/first_model_exploration/README.md) · [Short description findings](experiments/description_evaluation/FINDINGS.md)
 
 ## Application development
 
