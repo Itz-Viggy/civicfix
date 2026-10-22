@@ -10,6 +10,10 @@ The standalone [executed OpenCLIP notebook](experiments/first_model_exploration/
 
 See the [experiment setup](experiments/first_model_exploration/README.md), [submission note](experiments/first_model_exploration/SUBMISSION.md), and [assignment verification](experiments/first_model_exploration/ASSIGNMENT_CHECKLIST.md). CLIP remains benchmark-only; the full application roadmap is separate.
 
+## Offline description evaluation
+
+The [completed D0–D5 description experiment](experiments/description_evaluation/FINDINGS.md) adds local Qwen3-VL-4B-Instruct generation and existing OpenCLIP cosine scoring on 20 frozen development photos. Baseline: 16 valid outputs, 8/16 with zero unsupported claims under agent visual review. One prompt change: 15 valid outputs, 7/15 with zero unsupported claims; one fix and two regressions on 14 shared reviewed cases. The change did not improve the result. [Code, configurations, outputs, reviews and reproduction instructions](experiments/description_evaluation/README.md) preserve failures separately from scores and factuality. This does not change the classifier or establish held-out/application performance.
+
 ## Application development
 
 Stage 0 establishes the repository baseline and design contracts. There is no runnable web app or model integration yet.

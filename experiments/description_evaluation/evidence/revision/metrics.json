@@ -1,0 +1,25 @@
+{
+  "attempted": 20,
+  "generated": 15,
+  "generation_failures": 5,
+  "abstentions": 0,
+  "reviewed": 15,
+  "unreviewed_generated": 0,
+  "score_protocol": "openclip-vit-b32-openai-native-raw-cosine-v1",
+  "score_valid_n": 15,
+  "score_failed_or_skipped_n": 5,
+  "mean_clip_cosine": 0.3241215387980143,
+  "median_clip_cosine": 0.3256046175956726,
+  "zero_unsupported_claims": 7,
+  "zero_unsupported_share": 0.4666666666666667,
+  "unsupported_claim_count": 12,
+  "mean_clarity": 2,
+  "mean_specificity": 1.8,
+  "missing_important_visible_fact_n": 3,
+  "generation_latency_seconds": {
+    "mean": 7.867574912501732,
+    "p95": 10.022395764602697,
+    "median": 7.5971950005041435
+  },
+  "factuality_pass_definition": "Zero unsupported assertions across the entire output, among reviewed only; CLIP is not a factuality test"
+}

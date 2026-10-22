@@ -1,0 +1,21 @@
+{
+  "registered_utc": "2026-10-22T15:01:27.277443+00:00",
+  "baseline_configuration_sha256": "f4fa10207ab600c90fd32710ea2dfe3635daa2a855077e62bb9810ea91550a75",
+  "baseline_reviews_sha256": "5395aa511b3f6b804900f26da7b9ae2592826737c9f72fc901a79f5708e7afd8",
+  "baseline_reviewed_n": 16,
+  "baseline_zero_unsupported_n": 8,
+  "changed_feature": "Add one final visual-evidence self-check instruction; no other semantic prompt change",
+  "exact_added_text": "Before returning JSON, check every proposed assertion against the visible pixels and delete any assertion that is not directly observable.",
+  "baseline_weak_cases": [
+    "commons-84bcb35daa",
+    "commons-1be7ba9610",
+    "commons-289e64dab5",
+    "commons-47aa637b4d",
+    "commons-359e62bbe5"
+  ],
+  "hypothesis": "Deleting assertions that cannot be checked against the image should reduce guessed text, inferred disposal status and false absence/damage claims across all fields.",
+  "possible_regressions": "May omit useful details, reduce specificity, or alter formatting/category validity. No improvement assumed.",
+  "fixed": "Same ordered 20 IDs, pixels, artifact, quantization, model/runtime, greedy decoding, scorer, rubric, schemas and timing protocol",
+  "target": "Factuality on the reviewed development cases; not optimized using CLIP scores",
+  "registered_before_revision_inference": true
+}

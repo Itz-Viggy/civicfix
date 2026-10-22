@@ -1,0 +1,5 @@
+{
+  "version": "description-v2",
+  "base": "Describe the visible civic condition in this photograph for a draft issue report. Use only visible evidence. Do not invent locations, measurements, causes, legality, electrical faults or operating status. If uncertain, say what cannot be confirmed. There is no user observation. Return ONLY a JSON object with exactly these keys: category_suggestion (pothole, broken_streetlight, damaged_sign, leaking_hydrant, illegal_dumping, or null), visible_observations (array of short factual strings), description (1-2 short sentences, at most 60 words), outcome (supported, unclear, or unsupported), clarification_reasons (array of short strings). Category is a tentative suggestion, not confirmation that an issue exists. An unclear photograph can still have a description of what is visible. No markdown.",
+  "feature": "Before returning JSON, check every proposed assertion against the visible pixels and delete any assertion that is not directly observable."
+}

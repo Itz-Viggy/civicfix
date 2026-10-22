@@ -1,0 +1,51 @@
+{
+  "runtime": {
+    "model": "ViT-B-32",
+    "pretrained_tag": "openai",
+    "checkpoint_sha256": "40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af",
+    "device": "cpu",
+    "precision": "float32",
+    "batch_size": 1,
+    "threads": 4,
+    "activation": "QuickGELU (OpenAI checkpoint native)",
+    "seed": 6216,
+    "deterministic_algorithms": true,
+    "training_budget": "none (pretrained inference)",
+    "tokenizer": "SimpleTokenizer",
+    "tokenizer_bpe_sha256": "924691ac288e54409236115652ad4aa250f48203de50a9e4722a6ecd48d6804a",
+    "context_length": 77,
+    "preprocess": "Compose(\n    Resize(size=224, interpolation=bicubic, max_size=None, antialias=True)\n    CenterCrop(size=(224, 224))\n    MaybeConvertMode()\n    MaybeToTensor()\n    Normalize(mean=(0.48145466, 0.4578275, 0.40821073), std=(0.26862954, 0.26130258, 0.27577711))\n)",
+    "platform": "Darwin",
+    "machine": "arm64",
+    "python": "3.12.15",
+    "packages": {
+      "torch": "2.14.1",
+      "torchvision": "0.29.1",
+      "open_clip_torch": "3.3.0",
+      "Pillow": "12.3.0",
+      "numpy": "2.5.3",
+      "pandas": "3.0.6"
+    },
+    "score_method": "normalize each prompt; mean 3 per class; normalize prototype; normalized image dot prototype",
+    "tie_break": "first in declared category order",
+    "categories": [
+      "pothole",
+      "broken_streetlight",
+      "damaged_sign",
+      "leaking_hydrant",
+      "illegal_dumping"
+    ],
+    "backend": "local Mac CPU; no image upload",
+    "service_cost_usd": 0,
+    "service_cost_note": "No API/compute service charge; electricity and owned hardware not priced"
+  },
+  "score_protocol": "openclip-vit-b32-openai-native-raw-cosine-v1",
+  "text_prefix": "",
+  "formula": "dot(L2(image embedding), L2(description embedding))",
+  "clip_score": null,
+  "official_clipscore": false,
+  "text": "Generated description only; no captions, category or review notes; OpenCLIP 77-token native tokenizer",
+  "truncation": "Native tokenizer; token occupancy recorded, 77 occupied means possibly truncated",
+  "images": "Original stored development RGB image through existing native OpenAI transform",
+  "configuration_sha256": "f4fa10207ab600c90fd32710ea2dfe3635daa2a855077e62bb9810ea91550a75"
+}
