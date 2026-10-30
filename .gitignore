@@ -23,3 +23,9 @@ model-weights/
 
 # Private planning and reference material stays local.
 /docs/
+# Local application build and test outputs.
+apps/web/dist/
+apps/web/test-results/
+apps/web/playwright-report/
+.pytest_cache/
+*.egg-info/
