@@ -1,0 +1,58 @@
+{
+  "version": "gnv-2026-10-30",
+  "publisher": "City of Gainesville, FL",
+  "boundary_source": "https://services2.arcgis.com/Zzhtlau4ccHkQgTu/arcgis/rest/services/Gainesville_Boundary/FeatureServer",
+  "item_id": "afd7e79394f24f29b03032a32d734a2d",
+  "effective_date": "2026-08-11",
+  "verified_at": "2026-10-30",
+  "source_crs": "EPSG:2238",
+  "bundled_crs": "EPSG:4326",
+  "conversion": "ArcGIS query outSR=4326, GeoJSON; no simplification",
+  "sha256": "12c2d0b546de1527d93b139ead24e25d8e95c57f3a7742c906df9e76192d9cd2",
+  "terms": "<div style='text-align:Left;'><div><div><p><span>This data is provided for informational purposes only. There are no warranties or guaranties as to the accuracy, precision, or completeness of the data or map provided. Do not rely on this information as a perfect source for accurate dimensions, size, or location of spatial data. For specific information regarding an area of interest, you are directed to contact the City of Gainesville's Department of Doing at 352-334-5023 or COGPlanning@cityofgainesville.org.</span></p></div></div></div>",
+  "attribution": "Department of Doing - City of Gainesville",
+  "map_tiles": {
+    "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "attribution": "\u00a9 OpenStreetMap contributors",
+    "policy": "https://operations.osmfoundation.org/policies/tiles/",
+    "use": "Interactive optional display only, no prefetch or bulk downloads"
+  },
+  "streets": {
+    "source": "https://services2.arcgis.com/Zzhtlau4ccHkQgTu/arcgis/rest/services/PublicWorksInfrastructure_AGO/FeatureServer/5",
+    "where": "LIFECYCLE = 'Active'",
+    "sha256": "e1dec215cd089b0116239427b46aea11a02970d9e5ee1072a3575bf82c424149",
+    "features": 13979,
+    "ownership_rule": "within 10m of authoritative active road geometry, all intersecting candidates city maintained; otherwise unknown",
+    "source_metadata": ""
+  },
+  "reporting_rules": {
+    "pothole": {
+      "destination": "https://gainesvillefl.citysourced.com/servicerequests/create",
+      "condition": "Confirmed city limits; within10m of official city-maintained geometry; conflicting or absent ownership unresolved",
+      "source": "https://www.gainesvillefl.gov/Government-Pages/Government/Departments/Strategy-Planning-Innovation/myGNV"
+    },
+    "damaged_sign": {
+      "destination": "https://gainesvillefl.citysourced.com/servicerequests/create",
+      "condition": "Same road-maintenance geometry restriction; user selects issue in external intake",
+      "source": "https://www.gainesvillefl.gov/Government-Pages/Government/Departments/Strategy-Planning-Innovation/myGNV"
+    },
+    "illegal_dumping": {
+      "destination": "https://gainesvillefl.citysourced.com/servicerequests/create",
+      "condition": "Confirmed city limits; suspected dumping/debris intake, no legality claim",
+      "source": "https://www.gainesvillefl.gov/Home/Do-It-Online/Report-a-Problem/Report-a-Problem"
+    },
+    "broken_streetlight": {
+      "destination": null,
+      "reason": "unknown_ownership",
+      "guidance": "GRU outage form exists but exceptions and structural damage versus outage not established",
+      "source": "https://www.gainesvillefl.gov/Government-Pages/Government/Departments/Public-Works/Street-Lighting",
+      "official_form": "https://www.gru.com/My-Home/Customer-Service/Report-Streetlight-Outage"
+    },
+    "leaking_hydrant": {
+      "destination": null,
+      "reason": "no_verified_online_form",
+      "guidance": "No category-specific nonemergency online intake established; official contact guidance required",
+      "source": "https://www.gru.com/Home/Customer-Service"
+    }
+  }
+}
