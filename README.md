@@ -1,8 +1,82 @@
 # CivicFix
 
-CivicFix will help users prepare Gainesville-area nonemergency issue reports from photos, confirmed locations, and optional observations. Vision models suggest a category and description through a provider independent interface; deterministic rules resolve destinations. Users review and correct the report for separate manual submission.
+A local Gainesville, Florida, nonemergency report-preparation app. Upload a photo, confirm a location, get local CLIP/Qwen suggestions, correct the draft, review it, and prepare text/photo for manual entry in an official reporting form. CivicFix never submits a report.
 
-The app ends at **Prepare Report** → **Report Prepared**: **Your report is ready for manual submission. It has not been sent to an authority.** There is no authority submission or tracking integration.
+## Local application
+
+Tested runtime: Python 3.12.15, Node 26.10.0, Apple Silicon with Metal and 24 GB RAM. The Qwen MLX adapter requires Apple Silicon; deterministic test mode is separately labeled. No cloud account or API key is needed. The existing models use roughly 3.5 GB of disk; runtime photos stay in private `.runtime/app/` and expire after 24 hours. Cleanup runs while the app is running and on startup; a powered-off machine cannot delete on schedule.
+
+From the repository root:
+
+```sh
+# Python 3.12 must be installed on a clean checkout.
+python3.12 -m venv .venv-api
+# On this existing checkout, .venv/bin/python can replace python3.12.
+.venv-api/bin/python -m pip install -r services/api/requirements.lock
+cd apps/web
+npm ci
+cd ../..
+.venv-api/bin/python scripts/civicfix.py dev
+```
+
+Open [CivicFix locally](http://127.0.0.1:5173). Wait for both models to become ready. The launcher stops its API and model children on Ctrl+C. Default API port is 8000; UI is 5173. Optional `CIVICFIX_CONFIG` points to a copy of `config/app.example.toml`; `CIVICFIX_DATA_DIR` isolates runtime storage. `--fixture` on the launcher selects visibly simulated development mode; it is never an automatic fallback.
+
+The checked-out model environments/artifacts are reused. On a new machine, create the two environments and explicitly download the public pinned models using the existing experiment setup commands below. Downloads happen only during setup; inference uses local verified weights. Preserve the separate CLIP/Qwen locks because their dependency versions differ.
+
+```sh
+.venv/bin/python -m venv .venv-inference/clip
+.venv-inference/clip/bin/python -m pip install -r experiments/first_model_exploration/requirements-macos.lock
+.venv-inference/clip/bin/python -m experiments.first_model_exploration.setup_model
+.venv/bin/python -m venv .venv-inference/qwen
+.venv-inference/qwen/bin/python -m pip install -r experiments/description_evaluation/requirements-qwen-macos.lock
+HF_HUB_DISABLE_XET=1 .venv-inference/qwen/bin/python -m experiments.description_evaluation.setup_model
+```
+
+For a locally served built UI:
+
+```sh
+cd apps/web
+npm run build
+cd ../..
+.venv-api/bin/python scripts/civicfix.py start
+```
+
+Open [the built application](http://127.0.0.1:8000).
+
+## Checks
+
+```sh
+.venv-api/bin/python scripts/civicfix.py test
+PYTHONPATH=services/api:. .venv-api/bin/python scripts/civicfix.py schema
+cd apps/web
+npm run generate:types
+npm run check:contracts
+npm run typecheck
+npm test
+npm run build
+npx playwright install chromium webkit
+npm run e2e
+cd ../..
+PYTHONPATH=services/api:. .venv-api/bin/python evaluation/run.py
+PYTHONPATH=services/api:. .venv-api/bin/python evaluation/robustness.py
+PYTHONPATH=services/api:. .venv-api/bin/python evaluation/api_smoke.py
+# Explicit real-model browser smoke, after stopping other local servers:
+cd apps/web
+CIVICFIX_E2E_REAL=1 npm run e2e -- real.spec.ts --project=chromium
+cd ../..
+```
+
+Evaluation runs use actual local models and write new private JSONL evidence under `.runtime/app-evaluation/`. They do not claim held-out accuracy or automatically certify factuality. Review generated assertions against the permitted photos; similarity scores are not confidence or factual accuracy. User observations stay separately attributed and are not model inputs.
+
+## Scope and recovery
+
+Only city-limit locations are accepted. The bundled boundary and road-maintenance geometry come from the official City of Gainesville GIS organization, with sources, checksums and terms in `routing/sources.json`. Road issues resolve only near an authoritative city-maintained segment. Unknown ownership stays unresolved. Streetlight ownership and a category-specific hydrant web form are not established by the bundled evidence; those cases show official guidance and allow draft copying, but cannot pretend to be form-ready.
+
+Optional OpenStreetMap tiles require internet; GPS depends on browser permission/accuracy. Manual coordinates and the bundled boundary work without map tiles. No address-search service is used. A daylight photo cannot prove a streetlight outage, and debris does not prove illegal dumping.
+
+If models are starting, wait and retry. Missing weights, bad hashes, crashes, uncertain predictions and invalid JSON have explicit errors; valid inputs remain saved, and the app offers explicit manual correction. No photo is silently exported to a hosted model. If copying is denied, select the displayed report text or download it. The external form may require its own fields, sign-in or photo upload; opening it does not send anything. Clear deletes app-owned copies; deleting/expiring a draft prevents late model results from restoring it.
+
+## Preserved dataset and experiment documentation
 
 ## First Model Exploration homework
 
@@ -11,14 +85,6 @@ Submit the [combined executed notebook](experiments/first_model_exploration/trai
 Classification improved **40/43 → 41/43** after one dumping-prompt change. The description prompt change did not help: **16 → 15** valid outputs, **8/16 → 7/15** with zero unsupported claims under agent visual review. Both experiments use real local inference; similarity is separate from factuality, and no held-out/application acceptance is claimed.
 
 [Submission note](experiments/first_model_exploration/SUBMISSION.md) · [Reproduce](experiments/first_model_exploration/README.md) · [Short description findings](experiments/description_evaluation/FINDINGS.md)
-
-## Application development
-
-Stage 0 establishes the repository baseline and design contracts. There is no runnable web app or model integration yet.
-
-Planning documents and contracts stay local in the ignored `docs/` directory. The next implementation task is Stage 1A: shared schemas, provider interface, validated configuration, and simulated tests.
-
-The documents below describe the existing dataset milestone. Historical Gemini-only planning is superseded by the current PRD: self-hosted open source inference is required, and Gemini is an optional comparison adapter.
 
 ## Dataset playground
 
