@@ -1,0 +1,7 @@
+# Local API configuration. Model identities/paths remain pinned in the inference adapters.
+version = 1
+mode = "real"
+data_dir = ".runtime/app"
+allowed_origins = ["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8000", "http://localhost:8000"]
+cleanup_interval = 60
+analysis_timeout = 60
