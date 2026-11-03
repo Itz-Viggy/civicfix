@@ -1,6 +1,5 @@
 """Verify saved evidence and repository boundaries; does not call model services."""
 import json
-from pathlib import Path
 import subprocess
 
 import nbformat

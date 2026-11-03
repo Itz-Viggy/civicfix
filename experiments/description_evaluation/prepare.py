@@ -1,6 +1,4 @@
 """D0: freeze development identities before any generator outputs are examined."""
-import json
-
 from experiments.first_model_exploration.benchmark import inspect_data, sha256, write_new
 from scripts.dataset_tools import CATEGORIES
 from .contracts import HERE, ROOT

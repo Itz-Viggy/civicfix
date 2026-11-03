@@ -1,5 +1,4 @@
 """Deterministic correctness checks; synthetic fixtures are never model evidence."""
-from copy import deepcopy
 import json
 import tempfile
 from pathlib import Path
@@ -7,7 +6,7 @@ import unittest
 
 import pandas as pd
 
-from .benchmark import CATEGORIES, HERE, classify_scores, evaluate, validate_split, write_new, assert_one_change
+from .benchmark import CATEGORIES, classify_scores, evaluate, validate_split, write_new, assert_one_change
 
 
 class EvaluationTests(unittest.TestCase):

@@ -1,12 +1,10 @@
 """Local private report workflow. All authoritative transitions happen here."""
 from __future__ import annotations
-import asyncio, hashlib, io, json, os, secrets, time, uuid
+import asyncio, hashlib, json, os, secrets, time, uuid
 from contextlib import asynccontextmanager, suppress
-from pathlib import Path
-from typing import Any
-from fastapi import FastAPI, Request, Response, HTTPException
+from fastapi import FastAPI, Request, Response
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse, FileResponse, PlainTextResponse
+from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.formparsers import MultiPartParser
@@ -318,7 +316,7 @@ def create_app(data_dir=None,mode=None,manager=None):
             if not d['photo']:raise Problem(404,'photo_unavailable')
             p=db.get(PhotoRow,d['photo']['id']);path=store.photos/p.key if p else None
             if not path or not path.is_file() or path.is_symlink():raise Problem(404,'photo_unavailable')
-            return Response(path.read_bytes(),media_type='image/jpeg',headers={'Content-Disposition':f'attachment; filename="civicfix-photo.jpg"'} if request.url.path.endswith('/download') else {})
+            return Response(path.read_bytes(),media_type='image/jpeg',headers={'Content-Disposition':'attachment; filename="civicfix-photo.jpg"'} if request.url.path.endswith('/download') else {})
     @app.post('/api/v1/drafts/{id}/location/confirm',response_model=DraftResponse)
     async def confirm(id:str,request:Request,body:Confirm):
         async with lock:

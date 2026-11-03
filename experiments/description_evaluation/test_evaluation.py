@@ -1,5 +1,4 @@
 """Synthetic harness tests; none of these fixtures count as model evidence."""
-from copy import deepcopy
 import json
 import tempfile
 from pathlib import Path

@@ -106,7 +106,6 @@ def test_expiry_delete_and_files(client):
     d=inputs(client);s=client.app.state.store
     with s.session() as db,db.begin():db.get(DraftRow,d['id']).expires=0
     assert client.get(f'/api/v1/drafts/{d["id"]}').status_code==404
-    import asyncio
     client.portal.call(client.app.state.cleanup)
     assert list(s.photos.iterdir())==[]
     assert client.delete(f'/api/v1/drafts/{d["id"]}').status_code==204

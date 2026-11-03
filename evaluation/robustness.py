@@ -1,5 +1,5 @@
 """Small explicitly synthetic/reused robustness suite; never held-out accuracy."""
-import asyncio,io,json,sys,time,hashlib,csv
+import asyncio,io,json,sys,time,csv
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path[:0]=[str(ROOT),str(ROOT/'services/api')]
 from PIL import Image,ImageDraw,ImageFilter,ImageEnhance

@@ -1,5 +1,5 @@
 from pathlib import Path
-import json, os
+import os
 from sqlalchemy import create_engine,event,Column,String,Text,Float,ForeignKey
 from sqlalchemy.orm import declarative_base,Session
 Base=declarative_base()
