@@ -147,21 +147,16 @@ The saved final notebook reports the tested remote mode. Cache directories are i
 
 ## Docker reproduction
 
-Docker uses `python:3.12.15-slim`, pinned requirements and CPU execution. Its build context is restricted to the notebook runtime files. The container does not contain a GitHub credential and does not containerize or deploy the eventual CivicFix web app.
+For Module 8, Docker Compose serves the existing web app, Prometheus, and Grafana. SQLite and photos share a persistent volume. OpenCLIP runs natively on the host, and the demo uses manual descriptions. Follow [DOCKER.md](DOCKER.md) to start native CLIP and the stack.
+
+The original dataset notebook remains available:
 
 ```sh
-docker build -t civicfix-playground .
-# Execute local data and save the notebook back into the host checkout.
+docker build --target playground -t civicfix-playground .
 docker run --rm -e CIVICFIX_DATA_MODE=local -v "$PWD:/workspace" civicfix-playground
 ```
 
-For authenticated remote retrieval, provide `GITHUB_TOKEN` securely in the host environment and forward its name at run time:
-
-```sh
-docker run --rm -e GITHUB_TOKEN -e CIVICFIX_DATA_MODE=github -v "$PWD:/workspace" civicfix-playground
-```
-
-Docker CLI/daemon are unavailable on the development machine. The Dockerfile and commands were prepared and inspected, but image build and container execution are **unverified**. Local Python execution is verified independently.
+For remote dataset retrieval, pass `-e GITHUB_TOKEN -e CIVICFIX_DATA_MODE=github` with the token already supplied securely in the host environment.
 
 ## Provenance, rights and limitations
 
