@@ -1,0 +1,57 @@
+{
+  "uid": "civicfix-module8",
+  "title": "CivicFix Module 8",
+  "schemaVersion": 39,
+  "timezone": "browser",
+  "refresh": "15s",
+  "time": {"from": "now-15m", "to": "now"},
+  "panels": [
+    {
+      "id": 1,
+      "title": "CivicFix Predictions by Category",
+      "description": "Successful real CLIP classifications since the application started.",
+      "type": "bargauge",
+      "gridPos": {"h": 13, "w": 11, "x": 0, "y": 0},
+      "datasource": {"type": "prometheus", "uid": "civicfix-prometheus"},
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (category) (civicfix_classification_predictions_total{job=\"civicfix\"})",
+          "legendFormat": "{{category}}",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {"min": 0, "decimals": 0, "color": {"mode": "fixed", "fixedColor": "blue"}},
+        "overrides": [
+          {"matcher": {"id": "byName", "options": "pothole"}, "properties": [{"id": "displayName", "value": "Pothole"}]},
+          {"matcher": {"id": "byName", "options": "broken_streetlight"}, "properties": [{"id": "displayName", "value": "Broken streetlight"}]},
+          {"matcher": {"id": "byName", "options": "damaged_sign"}, "properties": [{"id": "displayName", "value": "Damaged sign"}]},
+          {"matcher": {"id": "byName", "options": "leaking_hydrant"}, "properties": [{"id": "displayName", "value": "Leaking hydrant"}]},
+          {"matcher": {"id": "byName", "options": "illegal_dumping"}, "properties": [{"id": "displayName", "value": "Suspected dumping"}]}
+        ]
+      },
+      "options": {"orientation": "horizontal", "displayMode": "gradient", "reduceOptions": {"calcs": ["lastNotNull"]}}
+    },
+    {
+      "id": 2,
+      "title": "Classification Processing Time",
+      "description": "Mean CLIP worker processing time in seconds since application start. Includes image decode, preprocessing and scoring.",
+      "type": "timeseries",
+      "gridPos": {"h": 13, "w": 13, "x": 11, "y": 0},
+      "datasource": {"type": "prometheus", "uid": "civicfix-prometheus"},
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(civicfix_classification_duration_seconds_sum{job=\"civicfix\"}) / (sum(civicfix_classification_duration_seconds_count{job=\"civicfix\"}) > 0)",
+          "legendFormat": "Mean CLIP processing time",
+          "instant": false,
+          "range": true
+        }
+      ],
+      "fieldConfig": {"defaults": {"unit": "suffix: s", "decimals": 3, "min": 0, "custom": {"axisLabel": "Seconds", "lineWidth": 2, "showPoints": "always"}}, "overrides": []},
+      "options": {"legend": {"showLegend": true, "displayMode": "table", "placement": "bottom", "calcs": ["lastNotNull"]}}
+    }
+  ]
+}
