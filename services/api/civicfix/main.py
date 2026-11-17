@@ -10,6 +10,9 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.formparsers import MultiPartParser
 from sqlalchemy import select,delete
 from pydantic import ValidationError
+from prometheus_client import (CollectorRegistry, Counter, Histogram, CONTENT_TYPE_LATEST,
+                               disable_created_metrics, generate_latest)
+from services.inference.manager import InferenceManager, real_clip_duration
 from .contracts import (CATEGORIES,DraftCreate,DraftPatch,Confirm,Analyze,Resolve,Review,Empty,DraftResponse,ClassifierResult,DescriptionResult)
 from .config import load_config,ROOT
 from .storage import Store,SessionRow,DraftRow,PhotoRow,JobRow
@@ -17,6 +20,7 @@ from .images import sanitize,ImageFailure,MAX_FILE,MAX_REQUEST
 
 # Entire requests are bounded before parsing; originals never spill to OS temp.
 MultiPartParser.spool_max_size=MAX_REQUEST
+disable_created_metrics()
 
 MESSAGE='Your report is ready for manual submission. It has not been sent to an authority.'
 def uid(): return str(uuid.uuid4())
@@ -49,10 +53,22 @@ def text(d,prepared=False):
 
 def create_app(data_dir=None,mode=None,manager=None):
     cfg=load_config(data_dir,mode)
-    store=Store(cfg.data_dir)
     if manager is None:
-        from services.inference.manager import InferenceManager
-        manager=InferenceManager(mode=cfg.mode)
+        if cfg.mode == 'real' and cfg.clip_url:
+            from services.inference.remote_clip import RemoteClipManager
+            manager = RemoteClipManager(cfg.clip_url, os.getenv('CIVICFIX_CLIP_TOKEN'))
+        else:
+            manager=InferenceManager(mode=cfg.mode)
+    store=Store(cfg.data_dir)
+    registry = CollectorRegistry()
+    predictions = Counter('civicfix_classification_predictions_total',
+                          'Committed real CLIP classifications by predicted category.',
+                          ['category'], registry=registry)
+    for category in CATEGORIES:
+        predictions.labels(category)
+    durations = Histogram('civicfix_classification_duration_seconds',
+                          'CLIP worker image decode, preprocessing and scoring time in seconds.',
+                          buckets=(.05, .1, .25, .5, 1, 2.5, 5, 10, 30, 60), registry=registry)
     lock=asyncio.Lock(); tasks={}; active_job=None
     app=FastAPI(title='CivicFix local API',version='1.0.0')
     app.state.store=store;app.state.manager=manager;app.state.clock=time.time;app.state.cleanup_issue=False
@@ -196,7 +212,9 @@ def create_app(data_dir=None,mode=None,manager=None):
         return JSONResponse({'error':{'code':'invalid_fields','message':'Check the highlighted input fields.','retryable':False,'field_errors':[{'field':'.'.join(str(v) for v in e['loc']),'message':e['msg']} for e in error.errors()]},'request_id':uid()},status_code=422)
     @app.middleware('http')
     async def guard(request,call_next):
-        if request.headers.get('host','').split(':')[0] not in ('127.0.0.1','localhost','testserver'):
+        host = request.headers.get('host','').split(':')[0]
+        internal_scrape = host == 'app' and request.method == 'GET' and request.url.path == '/metrics'
+        if host not in ('127.0.0.1','localhost','testserver') and not internal_scrape:
             return JSONResponse({'error':{'code':'host_rejected','message':'Local host required','retryable':False}},status_code=403)
         if request.url.path.startswith('/api/') and request.method in ('POST','PATCH','PUT','DELETE'):
             try:
@@ -229,6 +247,9 @@ def create_app(data_dir=None,mode=None,manager=None):
             return result
     @app.get('/api/v1/health/live')
     async def live():return {'status':'ok','cleanup_issue':app.state.cleanup_issue}
+    @app.get('/metrics', include_in_schema=False)
+    async def metrics():
+        return Response(generate_latest(registry), headers={'Content-Type': CONTENT_TYPE_LATEST})
     @app.get('/api/v1/capabilities')
     async def capabilities():
         cap=manager.capabilities()
@@ -376,6 +397,11 @@ def create_app(data_dir=None,mode=None,manager=None):
                     if c and c['status']=='ok' and d['_edits']['category']==edits['category'] and d['field_sources']['category']!='user':d['category']=c['result']['predicted_category'];d['field_sources']['category']='clip';d['route']=None
                     invalidate(d);changed(d);save(row,d)
                     j=json.loads(job.content);j.update(status=status,stage='finished',finished_at=stamp(now()),classifier=c,description=v,reason_codes=a['reason_codes']);job.content=encode(j)
+                if cfg.mode == 'real' and c:
+                    duration = real_clip_duration(c)
+                    if duration is not None:
+                        predictions.labels(c['result']['predicted_category']).inc()
+                        durations.observe(duration)
             except Problem:pass
             finally:
                 if active_job==job_id:active_job=None

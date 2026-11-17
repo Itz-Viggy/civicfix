@@ -9,7 +9,8 @@ class Config(BaseModel):
     data_dir: str = str(ROOT/'.runtime/app')
     allowed_origins: list[str] = ['http://127.0.0.1:5173','http://localhost:5173','http://127.0.0.1:8000','http://localhost:8000']
     cleanup_interval: int = Field(default=60,ge=1,le=60)
-    analysis_timeout: int = Field(default=60,ge=1,le=120)
+    analysis_timeout: int = Field(default=60,ge=1,le=86400)
+    clip_url: str | None = None
     def validate_mode(self):
         if self.mode not in ('real','fixture'): raise ValueError('Unsupported mode')
         if any(x not in ('http://127.0.0.1:5173','http://localhost:5173','http://127.0.0.1:8000','http://localhost:8000') for x in self.allowed_origins):
@@ -22,4 +23,6 @@ def load_config(data_dir=None,mode=None):
         values=tomllib.loads(Path(path).read_text())
     if data_dir or os.getenv('CIVICFIX_DATA_DIR'): values['data_dir']=str(data_dir or os.environ['CIVICFIX_DATA_DIR'])
     if mode or os.getenv('CIVICFIX_MODE'): values['mode']=mode or os.environ['CIVICFIX_MODE']
+    if value:=os.getenv('CIVICFIX_ANALYSIS_TIMEOUT'): values['analysis_timeout']=int(value)
+    if value:=os.getenv('CIVICFIX_CLIP_URL'): values['clip_url']=value
     return Config(**values).validate_mode()
