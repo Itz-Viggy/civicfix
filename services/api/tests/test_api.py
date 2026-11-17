@@ -217,3 +217,92 @@ def test_expired_pending_job_cannot_commit(tmp_path):
         c.portal.call(c.app.state.cleanup)
         assert not list(c.app.state.store.photos.iterdir())
     finally:c.__exit__(None,None,None)
+
+def test_restart_marks_running_analysis_interrupted(tmp_path):
+    import json
+    from civicfix.storage import JobRow
+    with TestClient(create_app(tmp_path,mode='fixture')) as c:
+        token=c.post('/api/v1/session',headers={'Origin':ORIGIN}).json()['csrf_token']
+        c.headers.update({'Origin':ORIGIN,'X-CSRF-Token':token})
+        d=inputs(c);cookie=c.cookies.get('civicfix_session')
+        with c.app.state.store.session() as db,db.begin():
+            row=db.get(DraftRow,d['id']);value=json.loads(row.content)
+            value['analysis']={'status':'running','job_id':'interrupted-job'}
+            row.content=json.dumps(value)
+            db.add(JobRow(id='interrupted-job',draft_id=d['id'],content=json.dumps({'status':'running'})))
+    with TestClient(create_app(tmp_path,mode='fixture')) as c:
+        c.cookies.set('civicfix_session',cookie)
+        restored=c.get(f'/api/v1/drafts/{d["id"]}').json()['draft']
+        assert restored['analysis']['status']=='interrupted'
+        assert restored['analysis']['reason_codes']==['analysis_interrupted']
+        assert not restored['eligibility']['can_prepare']
+
+
+@pytest.mark.parametrize('case', ['real', 'fixture', 'invalid', 'cancelled'])
+def test_prediction_metrics_only_count_committed_real_classifications(tmp_path, case):
+    import asyncio
+    from prometheus_client.parser import text_string_to_metric_families
+    from civicfix.contracts import CATEGORIES
+
+    class Clip(ControlledManager):
+        async def analyze(self, image, on_stage=None):
+            while not self.release.is_set():
+                await asyncio.sleep(.01)
+            return {
+                'classifier': {
+                    'status': 'ok',
+                    'result': {
+                        'predicted_category': 'pothole' if case != 'invalid' else 'invented',
+                        'scores': {c: .5 if c == 'pothole' else 0 for c in CATEGORIES},
+                        'top1_margin': .5,
+                    },
+                    'metadata': {'adapter': 'openclip_local', 'simulated': False, 'duration_seconds': .25},
+                },
+                'description': {'status': 'error', 'error': {'code': 'model_unavailable'}},
+            }
+
+    manager = Clip()
+    mode = 'fixture' if case == 'fixture' else 'real'
+    with TestClient(create_app(tmp_path, mode=mode, manager=manager)) as c:
+        token = c.post('/api/v1/session', headers={'Origin': ORIGIN}).json()['csrf_token']
+        c.headers.update({'Origin': ORIGIN, 'X-CSRF-Token': token})
+        draft = inputs(c)
+        request = {'acknowledged': True, 'disclosure_version': 'local-v1'}
+        response = mutate(c, draft, '/analysis', request)
+        assert response.status_code == 202
+        assert mutate(c, draft, '/analysis', request).status_code == 409
+        if case == 'cancelled':
+            job = response.json()['job']['id']
+            assert mutate(c, response.json()['draft'], f'/analysis/{job}/cancel', {}).is_success
+        manager.release.set()
+        for _ in range(60):
+            current = c.get(f"/api/v1/drafts/{draft['id']}").json()['draft']
+            if current['analysis']['status'] != 'running':
+                break
+            time.sleep(.02)
+        assert current['analysis']['status'] != 'running'
+        if case == 'real':
+            assert current['analysis']['reason_codes'] == ['description_failed']
+            assert mutate(c, current, '', {'category': 'damaged_sign'}, 'patch').is_success
+        c.get(f"/api/v1/drafts/{draft['id']}")
+
+        def scrape():
+            response = c.get('/metrics', headers={'Host': 'app:8000'})
+            assert response.is_success
+            return [s for m in text_string_to_metric_families(response.text) for s in m.samples]
+
+        samples = scrape()
+        assert scrape() == samples
+        assert c.get('/api/v1/health/live', headers={'Host': 'app:8000'}).status_code == 403
+        assert c.post('/metrics', headers={'Host': 'app:8000'}).status_code == 403
+        assert c.get('/metrics', headers={'Host': 'example.net'}).status_code == 403
+        expected = int(case == 'real')
+        assert {s.labels['category']: s.value for s in samples
+                if s.name == 'civicfix_classification_predictions_total'} == {
+                    c: expected if c == 'pothole' else 0 for c in CATEGORIES
+                }
+        histogram = {s.name: s.value for s in samples if not s.labels}
+        assert histogram == {
+            'civicfix_classification_duration_seconds_count': expected,
+            'civicfix_classification_duration_seconds_sum': .25 * expected,
+        }
