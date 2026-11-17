@@ -1,0 +1,7 @@
+scrape_configs:
+  - job_name: civicfix
+    metrics_path: /metrics
+    scrape_interval: 15s
+    scrape_timeout: 5s
+    static_configs:
+      - targets: [app:8000]
