@@ -1,5 +1,5 @@
 import {afterEach,expect,it,vi} from 'vitest'
-import {cleanup,render,screen,waitFor} from '@testing-library/react'
+import {cleanup,fireEvent,render,screen,waitFor} from '@testing-library/react'
 import App from './App'
 vi.mock('./MapPicker',()=>({default:()=> <div>Map coordinate alternative</div>}))
 afterEach(()=>{cleanup();localStorage.clear();vi.unstubAllGlobals()})
@@ -11,6 +11,9 @@ it('recovers an expired draft and explains privacy and the manual reporting boun
 it('shows typed AI failure and preserves an explicit manual correction path',async()=>{
  localStorage.setItem('civicfix-draft','failed')
  const draft={id:'failed',revision:5,state:'needs_correction',expires_at:'2099-01-01T12:00:00Z',description:'',user_observations:'',category:'pothole',photo:{id:'p'},analysis:{job_id:'j',status:'failed',classifier:{status:'ok',result:{predicted_category:'pothole'}},description:{status:'error',error:{code:'invalid_output',message:'Model response failed validation.'}},reason_codes:['description_failed']},eligibility:{can_analyze:true,can_review:false,can_prepare:false}}
- vi.stubGlobal('fetch',vi.fn(async(input:RequestInfo|URL)=>{const url=String(input);return new Response(JSON.stringify(url.endsWith('/session')?{csrf_token:'test'}:url.endsWith('/capabilities')?{simulated:false}:{draft}))}))
+ vi.stubGlobal('fetch',vi.fn(async(input:RequestInfo|URL)=>{const url=String(input);return new Response(JSON.stringify(url.endsWith('/session')?{csrf_token:'test'}:url.endsWith('/capabilities')?{simulated:false}:url.endsWith('/feedback')?{job_id:'j',classification:'open',description:'unavailable',experience:'open'}:{draft}))}))
  render(<App/>);await screen.findByRole('heading',{name:'A useful starting point'});expect(screen.getByText('Model response failed validation.')).toBeInTheDocument();expect(screen.getByText(/Needs correction: Description failed/)).toBeInTheDocument();expect(screen.getByRole('button',{name:'Confirm my category and description'})).toBeDisabled();expect(screen.getByLabelText('Reason for manual confirmation')).toBeInTheDocument()
+ fireEvent.click(screen.getByText('Rate AI suggestions'))
+ expect(await screen.findByRole('button',{name:/^Correct$/})).toBeInTheDocument()
+ expect(screen.queryByText('How was the suggested description?')).toBeNull()
 })
