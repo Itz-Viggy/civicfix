@@ -16,6 +16,7 @@ cloud account or API key, and photos are processed locally.
 - Support for potholes, broken streetlights, damaged signs, leaking hydrants,
   and illegal dumping
 - Manual editing and confirmation before a report is prepared
+- Optional AI suggestion feedback and a 1–5 app rating during report review
 - Copy and download options for the prepared report
 - Local storage with automatic expiration of runtime drafts and photos
 - Fixture mode for deterministic development and automated tests
@@ -189,6 +190,8 @@ docs/           Detailed technical and data documentation
   or a separate photo upload.
 - Runtime drafts and photos expire after 24 hours. Cleanup cannot run while
   the machine is powered off.
+- Submitted feedback stays on this computer for 30 days and detaches from the
+  draft when it is cleared or expires.
 
 ## License and attribution
 

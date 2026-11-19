@@ -65,7 +65,43 @@ CIVICFIX_MODE=fixture docker compose -p civicfix-fixture --profile test \
 docker compose -p civicfix-fixture down
 ```
 
-Fixture predictions leave both monitoring metrics unchanged. Stop the demo with `compose down` and stop the native wrapper with Ctrl+C.
+Fixture predictions and feedback are excluded from the dashboard. Stop the demo with `compose down` and stop the native wrapper with Ctrl+C.
+
+## Review user feedback
+
+The **User feedback** section of the Grafana dashboard shows the last 30 days of
+real classification votes, suggested corrections, description votes, and app
+ratings. These are voluntary responses. Each rate uses the response count shown
+with it. Feedback counts come from SQLite and survive an app restart.
+
+Use the read-only command below to review recent comments from the Docker volume.
+For a native app run, use the second command with the same `CIVICFIX_DATA_DIR`
+or `CIVICFIX_CONFIG` as the app if you overrode its defaults.
+
+```sh
+docker compose exec -T app python scripts/review_feedback.py --days 7 --limit 50
+.venv-api/bin/python scripts/review_feedback.py --days 7 --limit 50
+```
+
+Comments are printed locally as JSON lines with the UTC submission date and rating.
+Feedback stays in the local SQLite database for 30 days and detaches from the
+report when the draft is cleared or expires. Grafana displays aggregates.
+
+To exercise feedback in the isolated fixture project described above, run these
+commands while that project's app is up. The named volume is used across both
+containers. The final step verifies that clearing the draft detaches the saved
+feedback.
+
+```sh
+docker compose -p civicfix-fixture exec -T app python docker/smoke.py create --fixture --feedback
+CIVICFIX_MODE=fixture docker compose -p civicfix-fixture up -d --force-recreate --wait app
+docker compose -p civicfix-fixture exec -T app python docker/smoke.py verify
+docker compose -p civicfix-fixture exec -T app python docker/smoke.py delete
+```
+
+For an isolated real CLIP run, use `create --clip-only --feedback`. The smoke
+checks that classification feedback is available while Qwen is unavailable. After
+the next Prometheus scrape, Grafana shows the test vote and rating.
 
 ## Prior verification of the legacy Docker runtime
 
