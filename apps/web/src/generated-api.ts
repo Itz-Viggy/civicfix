@@ -212,6 +212,24 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/drafts/{id}/feedback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Feedback */
+        get: operations["get_feedback_api_v1_drafts__id__feedback_get"];
+        put?: never;
+        /** Submit Feedback */
+        post: operations["submit_feedback_api_v1_drafts__id__feedback_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/drafts/{id}/manual-resolution": {
         parameters: {
             query?: never;
@@ -355,6 +373,23 @@ export interface components {
              */
             detail: string;
         };
+        /** ClassificationFeedback */
+        ClassificationFeedback: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "classification";
+            /** Job Id */
+            job_id: string;
+            /**
+             * Verdict
+             * @enum {string}
+             */
+            verdict: "correct" | "incorrect";
+            /** Suggested Category */
+            suggested_category?: ("pothole" | "broken_streetlight" | "damaged_sign" | "leaking_hydrant" | "illegal_dumping") | null;
+        };
         /** ClassifierExecution */
         ClassifierExecution: {
             /**
@@ -421,6 +456,21 @@ export interface components {
             metadata?: {
                 [key: string]: unknown;
             } | null;
+        };
+        /** DescriptionFeedback */
+        DescriptionFeedback: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "description";
+            /** Job Id */
+            job_id: string;
+            /**
+             * Verdict
+             * @enum {string}
+             */
+            verdict: "helpful" | "inaccurate";
         };
         /** DescriptionResult */
         DescriptionResult: {
@@ -510,6 +560,38 @@ export interface components {
         };
         /** Empty */
         Empty: Record<string, never>;
+        /** ExperienceFeedback */
+        ExperienceFeedback: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "experience";
+            /** Rating */
+            rating: number;
+            /** Comment */
+            comment?: string | null;
+        };
+        /** FeedbackState */
+        FeedbackState: {
+            /** Job Id */
+            job_id: string | null;
+            /**
+             * Classification
+             * @enum {string}
+             */
+            classification: "unavailable" | "open" | "submitted";
+            /**
+             * Description
+             * @enum {string}
+             */
+            description: "unavailable" | "open" | "submitted";
+            /**
+             * Experience
+             * @enum {string}
+             */
+            experience: "unavailable" | "open" | "submitted";
+        };
         /** FieldSources */
         FieldSources: {
             /** Category */
@@ -1136,6 +1218,81 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_feedback_api_v1_drafts__id__feedback_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeedbackState"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    submit_feedback_api_v1_drafts__id__feedback_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ClassificationFeedback"] | components["schemas"]["DescriptionFeedback"] | components["schemas"]["ExperienceFeedback"];
+            };
+        };
+        responses: {
+            /** @description Identical feedback already saved */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeedbackState"];
+                };
+            };
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeedbackState"];
                 };
             };
             /** @description Validation Error */
