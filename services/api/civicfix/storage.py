@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-from sqlalchemy import create_engine,event,Column,String,Text,Float,ForeignKey
+from sqlalchemy import Boolean, Column, Float, ForeignKey, Integer, String, Text, UniqueConstraint, create_engine, event, text
 from sqlalchemy.orm import declarative_base,Session
 Base=declarative_base()
 class SessionRow(Base):
@@ -8,6 +8,8 @@ class SessionRow(Base):
     id=Column(String,primary_key=True)
     csrf=Column(String,nullable=False)
     expires=Column(Float,nullable=False)
+    feedback_window_start = Column(Float)
+    feedback_count = Column(Integer, nullable=False, server_default=text('0'))
 class DraftRow(Base):
     __tablename__='drafts'
     id=Column(String,primary_key=True)
@@ -24,6 +26,31 @@ class JobRow(Base):
     id=Column(String,primary_key=True)
     draft_id=Column(String,ForeignKey('drafts.id'),index=True,nullable=False)
     content=Column(Text,nullable=False)
+
+
+class FeedbackRow(Base):
+    __tablename__ = 'feedback'
+    __table_args__ = (
+        UniqueConstraint('job_id', 'kind', name='uq_feedback_job_kind'),
+        UniqueConstraint('draft_id', 'kind', name='uq_feedback_draft_kind'),
+    )
+
+    id = Column(Integer, primary_key=True)
+    kind = Column(String, nullable=False)
+    created_at = Column(Float, nullable=False, index=True)
+    simulated = Column(Boolean, nullable=False)
+    job_id = Column(String, ForeignKey('analysis_jobs.id', ondelete='SET NULL'))
+    draft_id = Column(String, ForeignKey('drafts.id', ondelete='SET NULL'))
+    verdict = Column(String)
+    predicted_category = Column(String)
+    suggested_category = Column(String)
+    model_id = Column(String)
+    model_revision = Column(String)
+    prompt_version = Column(String)
+    rating = Column(Integer)
+    comment = Column(Text)
+
+
 class Store:
     def __init__(self,path):
         self.path=Path(path).resolve(); self.path.mkdir(parents=True,exist_ok=True,mode=0o700)

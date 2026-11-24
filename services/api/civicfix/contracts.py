@@ -34,6 +34,44 @@ class Review(Confirm):
     nonemergency_confirmed: Literal[True]
 class Empty(Strict):
     pass
+
+
+class ClassificationFeedback(Strict):
+    kind: Literal['classification']
+    job_id: Annotated[str, StringConstraints(min_length=1, max_length=36)]
+    verdict: Literal['correct', 'incorrect']
+    suggested_category: Category | None = None
+
+    @model_validator(mode='after')
+    def check_suggestion(self):
+        if self.suggested_category is not None and self.verdict != 'incorrect':
+            raise ValueError('Suggest a category only when the original classification is incorrect.')
+        return self
+
+
+class DescriptionFeedback(Strict):
+    kind: Literal['description']
+    job_id: Annotated[str, StringConstraints(min_length=1, max_length=36)]
+    verdict: Literal['helpful', 'inaccurate']
+
+
+class ExperienceFeedback(Strict):
+    kind: Literal['experience']
+    rating: int = Field(ge=1, le=5)
+    comment: Annotated[str, StringConstraints(strip_whitespace=True, max_length=500)] | None = None
+
+
+FeedbackInput = Annotated[ClassificationFeedback | DescriptionFeedback | ExperienceFeedback, Field(discriminator='kind')]
+FeedbackStatus = Literal['unavailable', 'open', 'submitted']
+
+
+class FeedbackState(Strict):
+    job_id: str | None
+    classification: FeedbackStatus
+    description: FeedbackStatus
+    experience: FeedbackStatus
+
+
 class ClassifierResult(Strict):
     predicted_category: Category
     scores: dict[Category,float]

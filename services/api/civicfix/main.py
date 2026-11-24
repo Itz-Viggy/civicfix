@@ -1,6 +1,6 @@
 """Local private report workflow. All authoritative transitions happen here."""
 from __future__ import annotations
-import asyncio, hashlib, json, os, secrets, time, uuid
+import asyncio, hashlib, json, math, os, secrets, time, uuid
 from contextlib import asynccontextmanager, suppress
 from fastapi import FastAPI, Request, Response
 from fastapi.exceptions import RequestValidationError
@@ -14,8 +14,11 @@ from prometheus_client import (CollectorRegistry, Counter, Histogram, CONTENT_TY
                                disable_created_metrics, generate_latest)
 from services.inference.manager import InferenceManager, real_clip_duration
 from .contracts import (CATEGORIES,DraftCreate,DraftPatch,Confirm,Analyze,Resolve,Review,Empty,DraftResponse,ClassifierResult,DescriptionResult)
+from .contracts import ClassificationFeedback, ExperienceFeedback, FeedbackInput, FeedbackState
 from .config import load_config,ROOT
-from .storage import Store,SessionRow,DraftRow,PhotoRow,JobRow
+from .feedback import (FEEDBACK_MAX_REQUEST, FEEDBACK_QUOTA, FEEDBACK_RETENTION, FEEDBACK_WINDOW,
+                       FeedbackCollector, feedback_analysis, feedback_state)
+from .storage import Store,SessionRow,DraftRow,PhotoRow,JobRow,FeedbackRow
 from .images import sanitize,ImageFailure,MAX_FILE,MAX_REQUEST
 
 # Entire requests are bounded before parsing; originals never spill to OS temp.
@@ -30,8 +33,9 @@ def stamp(t=None):
 def digest(value): return hashlib.sha256(value.encode() if isinstance(value,str) else value).hexdigest()
 def encode(value): return json.dumps(value,allow_nan=False,separators=(',',':'))
 class Problem(Exception):
-    def __init__(self,status,code,message=None,reasons=None):
+    def __init__(self,status,code,message=None,reasons=None,retry_after=2):
         self.status=status;self.code=code;self.message=message or code.replace('_',' ').capitalize();self.reasons=reasons
+        self.retry_after=retry_after
 
 def invalidate(d,manual=True,route=False):
     d['review_revision']=d['reviewed_at']=d['prepared_revision']=d['prepared_at']=None
@@ -76,6 +80,7 @@ def create_app(data_dir=None,mode=None,manager=None):
         try:path.unlink(missing_ok=True)
         except OSError:app.state.cleanup_issue=True
     def now(): return app.state.clock()
+    registry.register(FeedbackCollector(store, now))
     def routing():
         from . import routing as rules
         return rules
@@ -163,6 +168,7 @@ def create_app(data_dir=None,mode=None,manager=None):
                 for row in db.scalars(select(DraftRow).where(DraftRow.expires<=now())).all():
                     d=json.loads(row.content);await stop_job(db,d,'cancelled');remove_files(db,row.id);db.delete(row)
                 db.execute(delete(SessionRow).where(SessionRow.expires<=now()))
+                db.execute(delete(FeedbackRow).where(FeedbackRow.created_at <= now() - FEEDBACK_RETENTION))
                 for photo in db.scalars(select(PhotoRow)).all():
                     parent=db.get(DraftRow,photo.draft_id)
                     current=json.loads(parent.content).get('photo') if parent else None
@@ -202,7 +208,7 @@ def create_app(data_dir=None,mode=None,manager=None):
     app.router.lifespan_context=lifespan
     @app.exception_handler(Problem)
     async def problem_handler(request,error):
-        headers={'Retry-After':'2'} if error.status==429 else {}
+        headers={'Retry-After':str(error.retry_after)} if error.status==429 else {}
         return JSONResponse({'error':{'code':error.code,'message':error.message,'retryable':error.status in (409,429,503),'reason_codes':error.reasons or []},'request_id':uid()},status_code=error.status,headers=headers)
     @app.exception_handler(StarletteHTTPException)
     async def http_failure(request,error):
@@ -222,13 +228,18 @@ def create_app(data_dir=None,mode=None,manager=None):
                 if request.url.path!='/api/v1/session':
                     with store.session() as db:authorize(request,db,True)
             except Problem as e:return await problem_handler(request,e)
-        length=request.headers.get('content-length')
-        if length and (not length.isdigit() or int(length)>MAX_REQUEST):return JSONResponse({'error':{'code':'request_too_large','message':'Request limit is 11 MiB','retryable':False}},status_code=413)
+        feedback_post = (request.method == 'POST' and request.url.path.startswith('/api/v1/drafts/')
+                         and request.url.path.rstrip('/').endswith('/feedback'))
+        limit = FEEDBACK_MAX_REQUEST if feedback_post else MAX_REQUEST
+        limit_message = 'Feedback request limit is 8 KiB' if feedback_post else 'Request limit is 11 MiB'
+        length = request.headers.get('content-length', '').lstrip('0')
+        if length and (len(length) > len(str(limit)) or not length.isascii() or not length.isdecimal() or int(length) > limit):
+            return JSONResponse({'error':{'code':'request_too_large','message':limit_message,'retryable':False}},status_code=413)
         if request.url.path.startswith('/api/') and request.method in ('POST','PUT','PATCH'):
             chunks=[];total=0
             async for chunk in request.stream():
                 total+=len(chunk)
-                if total>MAX_REQUEST:return JSONResponse({'error':{'code':'request_too_large','message':'Request limit is 11 MiB','retryable':False}},status_code=413)
+                if total>limit:return JSONResponse({'error':{'code':'request_too_large','message':limit_message,'retryable':False}},status_code=413)
                 chunks.append(chunk)
             request._body=b''.join(chunks)
         result=await call_next(request)
@@ -442,6 +453,69 @@ def create_app(data_dir=None,mode=None,manager=None):
                 if active(d) and d['analysis']['job_id']==job_id:
                     await stop_job(db,d);invalidate(d);changed(d);save(row,d)
                 return response(d,job=json.loads(job.content))
+
+    @app.get('/api/v1/drafts/{id}/feedback', response_model=FeedbackState)
+    async def get_feedback(id: str, request: Request):
+        async with lock:
+            with store.session() as db, db.begin():
+                _, draft = owned(db, id, authorize(request, db))
+                job_id, executions = feedback_analysis(db, draft)
+                return feedback_state(db, id, job_id, executions)
+
+    @app.post('/api/v1/drafts/{id}/feedback', response_model=FeedbackState, status_code=201,
+              responses={200: {'model': FeedbackState, 'description': 'Identical feedback already saved'}})
+    async def submit_feedback(id: str, request: Request, body: FeedbackInput, reply: Response):
+        async with lock:
+            with store.session() as db, db.begin():
+                owner = authorize(request, db, True)
+                _, draft = owned(db, id, owner)
+                job_id, executions = feedback_analysis(db, draft)
+                values = {'kind': body.kind, 'created_at': now(), 'simulated': cfg.mode == 'fixture'}
+                if isinstance(body, ExperienceFeedback):
+                    target = FeedbackRow.draft_id == id
+                    values['draft_id'] = id
+                    payload = {'rating': body.rating, 'comment': body.comment or None}
+                else:
+                    if body.job_id != job_id:
+                        raise Problem(409, 'feedback_target_changed', 'The analysis has changed. Review the current suggestions.')
+                    execution = executions.get(body.kind)
+                    if execution is None:
+                        raise Problem(409, 'feedback_unavailable', 'This analysis has no result to rate for this feedback.')
+                    target = FeedbackRow.job_id == job_id
+                    metadata = execution.get('metadata') or {}
+                    result = execution['result']
+                    values.update(job_id=job_id, model_id=metadata.get('model_id'),
+                                  model_revision=metadata.get('revision') or metadata.get('checkpoint_sha256'),
+                                  prompt_version=metadata.get('prompt_version'),
+                                  simulated=values['simulated'] or metadata.get('simulated') is True
+                                  or result.get('simulated') is True)
+                    payload = {'verdict': body.verdict}
+                    if isinstance(body, ClassificationFeedback):
+                        if body.suggested_category == result['predicted_category']:
+                            raise Problem(422, 'invalid_fields', 'Choose a category different from the original prediction.')
+                        values['predicted_category'] = result['predicted_category']
+                        payload['suggested_category'] = body.suggested_category
+
+                existing = db.scalar(select(FeedbackRow).where(target, FeedbackRow.kind == body.kind))
+                if existing is not None:
+                    if not all(getattr(existing, field) == value for field, value in payload.items()):
+                        raise Problem(409, 'feedback_already_submitted', 'Feedback for this item is already saved.')
+                    reply.status_code = 200
+                    return feedback_state(db, id, job_id, executions)
+
+                owner_session = db.get(SessionRow, owner)
+                submitted_at = values['created_at']
+                start = owner_session.feedback_window_start
+                if start is None or submitted_at >= start + FEEDBACK_WINDOW:
+                    owner_session.feedback_window_start = submitted_at
+                    owner_session.feedback_count = 0
+                elif owner_session.feedback_count >= FEEDBACK_QUOTA:
+                    raise Problem(429, 'feedback_rate_limited', 'Feedback limit reached. Try again after the current 24-hour window.',
+                                  retry_after=max(1, math.ceil(start + FEEDBACK_WINDOW - submitted_at)))
+                owner_session.feedback_count += 1
+                db.add(FeedbackRow(**values, **payload))
+                return feedback_state(db, id, job_id, executions)
+
     @app.post('/api/v1/drafts/{id}/manual-resolution',response_model=DraftResponse)
     async def manual(id:str,request:Request,body:Resolve):
         async with lock:
