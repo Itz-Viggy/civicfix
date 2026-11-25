@@ -5,6 +5,7 @@ from hashlib import sha256
 
 import httpx
 
+from services.inference.classification import POLICY_PATH
 from services.inference.manager import ROOT, error, real_clip_duration, validate
 
 
@@ -19,7 +20,7 @@ class RemoteClipManager:
         assets = ROOT / 'experiments/first_model_exploration'
         self.config_digest = sha256(
             b'host-clip-v1' + (assets / 'model.json').read_bytes()
-            + (assets / 'prompts/categories.v2.json').read_bytes()
+            + (assets / 'prompts/categories.v2.json').read_bytes() + POLICY_PATH.read_bytes()
         ).hexdigest()
         self.status = 'starting'
         self.active = None
@@ -56,7 +57,10 @@ class RemoteClipManager:
             if on_stage:
                 await on_stage('classifier')
             result = await self.classify(image_bytes)
-            return {'classifier': result, 'description': error('model_unavailable')}
+            executions = {'classifier': result}
+            if result.get('result', {}).get('outcome') == 'supported':
+                executions['description'] = error('model_unavailable')
+            return executions
         finally:
             self.active = None
 

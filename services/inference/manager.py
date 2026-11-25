@@ -1,6 +1,7 @@
 """Replaceable local inference orchestration, with process-level cancellation."""
 import asyncio, base64, json, math, time, hashlib, os, logging
 from services.inference.settings import backend, seconds
+from services.inference.classification import POLICY_PATH
 from pathlib import Path
 from contextlib import suppress
 ROOT=Path(__file__).resolve().parents[2]
@@ -30,7 +31,8 @@ def validate(kind,value):
         scores=r['scores']; assert set(scores)==set(CATEGORIES)
         assert all(isinstance(v,(float,int)) and math.isfinite(v) and -1.00001<=v<=1.00001 for v in scores.values())
         order=sorted(CATEGORIES,key=lambda c:-scores[c])
-        assert r['predicted_category']==order[0]
+        assert r['outcome'] in ('supported', 'unclear', 'unsupported')
+        assert r['predicted_category'] == (order[0] if r['outcome'] == 'supported' else None)
         assert abs(r['top1_margin']-(scores[order[0]]-scores[order[1]]))<1e-5
     else:
         assert set(r)=={'category_suggestion','outcome','visible_observations','suggested_description','clarification_reasons'}
@@ -72,7 +74,7 @@ class InferenceManager:
     def capabilities(self):
         if self.stages == ('classifier',):
             return {'classifier': {'status': self.states['classifier'], 'model_id': 'OpenCLIP ViT-B-32'}}
-        config_digest=hashlib.sha256(b''.join((ROOT/p).read_bytes() for p in ['services/inference/description_prompt.txt','experiments/first_model_exploration/model.json','experiments/first_model_exploration/prompts/categories.v2.json','experiments/description_evaluation/settings.json'])+self.mode.encode()+(self.backend.encode()+(ROOT/'services/inference/qwen_cpu_artifact.json').read_bytes() if self.backend=='transformers' else b'')).hexdigest()
+        config_digest=hashlib.sha256(b''.join((ROOT/p).read_bytes() for p in ['services/inference/description_prompt.txt','experiments/first_model_exploration/model.json','experiments/first_model_exploration/prompts/categories.v2.json','experiments/description_evaluation/settings.json'])+POLICY_PATH.read_bytes()+self.mode.encode()+(self.backend.encode()+(ROOT/'services/inference/qwen_cpu_artifact.json').read_bytes() if self.backend=='transformers' else b'')).hexdigest()
         return {'config_digest':config_digest,'ready':all(s=='ready' for s in self.states.values()),'simulated':self.mode=='fixture','classifier':{'status':self.states['classifier'],'model_id':'OpenCLIP ViT-B-32'},'description':{'status':self.states['description'],'runtime':self.backend,'artifact_id':('Qwen/Qwen3-VL-4B-Instruct' if self.backend=='transformers' else 'mlx-community/Qwen3-VL-4B-Instruct-4bit'),'revision':json.loads((ROOT/('services/inference/qwen_cpu_artifact.json' if self.backend=='transformers' else 'experiments/description_evaluation/qwen_artifact.json')).read_text())['revision'],'model_id':('Qwen3-VL-4B-Instruct (CPU float32)' if self.backend=='transformers' else 'Qwen3-VL-4B-Instruct (MLX 4-bit)')}}
     async def _stop(self,kind):
         p=self.workers.pop(kind,None)
@@ -92,9 +94,11 @@ class InferenceManager:
                     if hasattr(v,'__await__'): await v
                 if self.mode=='fixture':
                     await asyncio.sleep(.05)
-                    result=({'predicted_category':'pothole','scores':dict(zip(CATEGORIES,[.8,.1,.2,.0,.15])),'top1_margin':.6,'mode':'closed_set','score_kind':'cosine_similarity'} if kind=='classifier' else {'category_suggestion':'pothole','outcome':'supported','visible_observations':['Missing pavement is visible.'],'suggested_description':'A section of pavement is missing from the road surface.','clarification_reasons':[]})
+                    result=({'predicted_category':'pothole','outcome':'supported','scores':dict(zip(CATEGORIES,[.8,.1,.2,.0,.15])),'top1_margin':.6,'mode':'closed_set','score_kind':'cosine_similarity'} if kind=='classifier' else {'category_suggestion':'pothole','outcome':'supported','visible_observations':['Missing pavement is visible.'],'suggested_description':'A section of pavement is missing from the road surface.','clarification_reasons':[]})
                     out[kind]={'status':'ok','result':result,'metadata':{'simulated':True,'model_id':'fixtures-v1'}}; continue
-                if self.states[kind]!='ready': out[kind]=error('model_unavailable'); continue
+                if self.states[kind]!='ready':
+                    out[kind]=error('model_unavailable')
+                    break
                 raw=None
                 try:
                     p=self.workers[kind]
@@ -110,6 +114,8 @@ class InferenceManager:
                     out[kind]=error('invalid_output')
                     if raw is None or not raw:
                         await self._stop(kind);self.start_tasks.append(asyncio.create_task(self._load(kind)))
+                if kind == 'classifier' and out[kind].get('result', {}).get('outcome') != 'supported':
+                    break
             return out
         except asyncio.CancelledError:
             loaders=[t for t in self.start_tasks if not t.done()]
