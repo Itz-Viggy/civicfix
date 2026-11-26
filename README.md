@@ -17,7 +17,7 @@ cloud account or API key, and photos are processed locally.
   and illegal dumping
 - Manual editing and confirmation before a report is prepared
 - Optional AI suggestion feedback and a 1–5 app rating during report review
-- Copy and download options for the prepared report
+- Printable PDF with the issue photo, plus plain-text copy and download options
 - Local storage with automatic expiration of runtime drafts and photos
 - Fixture mode for deterministic development and automated tests
 
@@ -133,6 +133,47 @@ npm run e2e
 
 Return to the repository root with `cd ../..`.
 
+### Real-model browser checks
+
+The opt-in browser suite uploads a pothole photo, a NASA astronaut portrait,
+and a deliberately blurred copy of the pothole photo. The portrait and blurred
+photo must stop at classification. The clear photo must keep the model
+suggestions and the entered observation in the downloaded report.
+
+Prepare the two additional test images from the repository root.
+
+```sh
+mkdir -p .runtime/goal-photo-verification
+curl -fL https://raw.githubusercontent.com/scikit-image/scikit-image/v0.25.2/skimage/data/astronaut.png \
+  -o .runtime/goal-photo-verification/astronaut.png
+.venv-api/bin/python - <<'PY'
+from PIL import Image, ImageFilter
+
+with Image.open('data/images/commons-0a68e3b438.jpg') as photo:
+    photo.convert('RGB').filter(ImageFilter.GaussianBlur(32)).save(
+        '.runtime/goal-photo-verification/blurred-pavement.jpg', quality=90)
+PY
+```
+
+The [NASA portrait](https://scikit-image.org/docs/stable/api/skimage.data.html#skimage.data.astronaut)
+is public domain. The [pothole photo by Thomas Booker](https://commons.wikimedia.org/wiki/File:A_photo_of_a_pothole_2021-07-11.jpg)
+and its blurred derivative are CC BY-SA 4.0.
+
+With the local models set up, run the application and browser suite in separate
+terminals.
+
+```sh
+CIVICFIX_DATA_DIR=.runtime/real-e2e-app .venv-api/bin/python scripts/civicfix.py dev
+```
+
+```sh
+CIVICFIX_E2E_REAL=1 CIVICFIX_E2E_BASE_URL=http://127.0.0.1:5173 \
+  npm --prefix apps/web run e2e -- real.spec.ts --project=chromium
+```
+
+The suite uses a demonstration location in Gainesville and stops at the local
+download. It makes no external submission.
+
 ## Configuration
 
 Copy [config/app.example.toml](config/app.example.toml) and set
@@ -161,6 +202,11 @@ facts such as streetlight ownership, illegal dumping, or the cause of a
 problem. When the application cannot verify a required detail, it leaves the
 detail unresolved rather than presenting an unsupported claim.
 
+The classifier can reject an unrelated photo or request a clearer view before
+generating a description. This decision uses model-specific similarity
+thresholds and can miss valid issues. A rejected draft needs a replacement
+photo before it can proceed.
+
 Routing data, source records, and data-quality notes are available in
 [routing/sources.json](routing/sources.json),
 [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md), and
@@ -183,7 +229,10 @@ docs/           Detailed technical and data documentation
 ## Limitations
 
 - Only locations inside the supported Gainesville boundary are accepted.
-- Road issue routing depends on the bundled city-maintained road geometry.
+- Road issue routing uses the bundled Gainesville street inventory. An off-road
+  pin or conflicting maintenance records require a more precise roadway
+  location. Pothole reports can be directed to the City, Alachua County, or
+  FDOT when the inventory identifies the maintainer.
 - Map tiles and browser GPS require the relevant browser permissions and,
   for tiles, network access.
 - The external reporting service may require additional fields, authentication,
