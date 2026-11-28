@@ -60,3 +60,36 @@ test('optional feedback retries and restores all three saved responses', async (
   await page.getByText('Rate CivicFix', {exact: true}).click()
   await expect(page.getByText('App rating saved.')).toBeVisible()
 })
+
+test('a failed destination request offers a retry and keeps the report blocked', async ({page}) => {
+  let failOnce = true
+  await page.route('**/api/v1/drafts/*/destination', route => {
+    if (!failOnce) return route.continue()
+    failOnce = false
+    return route.fulfill({
+      status: 503,
+      json: {error: {code: 'temporary_failure', message: 'Service unavailable'}},
+    })
+  })
+
+  const input = page.getByLabel('Upload issue photo')
+  await input.setInputFiles(photo)
+  await expect(page.getByLabel('Latitude', {exact: true})).toHaveValue('')
+  await expect(page.getByLabel('Longitude', {exact: true})).toHaveValue('')
+  await page.getByLabel('Describe the location').fill('SE 7th Avenue near the intersection')
+  await expect(page.getByRole('button', {name: 'Confirm location'})).toBeDisabled()
+  await page.getByLabel('Latitude', {exact: true}).fill('29.645781879176276')
+  await page.getByLabel('Longitude', {exact: true}).fill('-82.30619912751014')
+  await page.getByRole('button', {name: 'Confirm location'}).click()
+  await page.getByLabel('I understand the models may be wrong').check()
+  await page.getByRole('button', {name: 'Analyze photo', exact: true}).click()
+  await expect(page.getByRole('button', {name: 'Analyze again'})).toBeEnabled()
+  await page.getByRole('button', {name: 'Continue to review'}).click()
+  await expect(page.getByRole('heading', {name: 'Destination lookup failed'})).toBeVisible()
+  await page.getByLabel('I reviewed the photo').check()
+  await expect(page.getByRole('button', {name: 'Prepare Report', exact: true})).toBeDisabled()
+  await page.getByRole('button', {name: 'Retry destination lookup'}).click()
+  await expect(page.getByText('City of Gainesville', {exact: true})).toBeVisible()
+  await page.getByLabel('I reviewed the photo').check()
+  await expect(page.getByRole('button', {name: 'Prepare Report', exact: true})).toBeEnabled()
+})
