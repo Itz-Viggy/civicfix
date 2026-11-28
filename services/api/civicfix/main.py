@@ -8,6 +8,7 @@ from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.formparsers import MultiPartParser
+from starlette.concurrency import run_in_threadpool
 from sqlalchemy import select,delete
 from pydantic import ValidationError
 from prometheus_client import (CollectorRegistry, Counter, Histogram, CONTENT_TYPE_LATEST,
@@ -20,6 +21,7 @@ from .feedback import (FEEDBACK_MAX_REQUEST, FEEDBACK_QUOTA, FEEDBACK_RETENTION,
                        FeedbackCollector, feedback_analysis, feedback_state)
 from .storage import Store,SessionRow,DraftRow,PhotoRow,JobRow,FeedbackRow
 from .images import sanitize,ImageFailure,MAX_FILE,MAX_REQUEST
+from .report_pdf import render_pdf
 
 # Entire requests are bounded before parsing; originals never spill to OS temp.
 MultiPartParser.spool_max_size=MAX_REQUEST
@@ -44,6 +46,35 @@ def invalidate(d,manual=True,route=False):
 
 def changed(d): d['revision']+=1;d['updated_at']=stamp()
 def active(d): return d.get('analysis',{}).get('status')=='running' if d.get('analysis') else False
+def photo_rejected(d): return (d.get('analysis') or {}).get('status') == 'rejected'
+
+def require_replacement_if_rejected(d):
+    if photo_rejected(d):
+        raise Problem(409, 'photo_rejected', 'Upload a replacement photo that clearly shows one supported issue.',
+                      reasons=d['analysis']['reason_codes'])
+
+def validated_execution(execution, validator):
+    if isinstance(execution, dict):
+        if execution.get('status') == 'ok':
+            allowed = {'adapter','model_id','revision','checkpoint_sha256','prompt_version','prompt_sha256',
+                       'preprocessing_version','duration_seconds','simulated','runtime','device'}
+            metadata = execution.get('metadata')
+            safe_metadata = {k: v for k, v in metadata.items()
+                             if k in allowed and isinstance(v, (str, int, float, bool, type(None)))} if isinstance(metadata, dict) else {}
+            try:
+                return {'status': 'ok', 'result': validator.model_validate(execution['result']).model_dump(),
+                        'metadata': safe_metadata}
+            except (ValidationError, KeyError, ValueError):
+                return {'status': 'error', 'error': {'code': 'invalid_output',
+                        'message': 'The model output did not match the report schema.'}}
+        if execution.get('status') == 'error':
+            safe_codes = ('model_unavailable','invalid_output','timeout','worker_crash','cancelled','interrupted')
+            issue = execution.get('error')
+            code = issue.get('code') if isinstance(issue, dict) else None
+            return {'status': 'error', 'error': {'code': code if code in safe_codes else 'invalid_output',
+                    'message': 'Local model analysis needs retry or manual correction.'}}
+    return {'status': 'error', 'error': {'code': 'invalid_output',
+            'message': 'The model output was incomplete.'}}
 
 def text(d,prepared=False):
     label='Report Prepared' if prepared else 'Draft — not submitted'
@@ -96,9 +127,9 @@ def create_app(data_dir=None,mode=None,manager=None):
             d['_config']=current; d['analysis']=None;d['processing_acknowledgement']=None
             invalidate(d);changed(d); row.content=encode(d)
         if d.get('route'):
-            latest=routing().resolve(d.get('location'),d.get('category'))
             old=d['route']
-            if any(old.get(k)!=latest.get(k) for k in ('rules_version','boundary_version')):
+            rules = routing()
+            if (old.get('rules_version'), old.get('boundary_version')) != (rules.RULES_VERSION, rules.BOUNDARY_VERSION):
                 invalidate(d,manual=False,route=True);changed(d);row.content=encode(d)
         return row,d
     def save(row,d): row.content=encode(d)
@@ -108,12 +139,12 @@ def create_app(data_dir=None,mode=None,manager=None):
         l=d.get('location')
         if not l: errors.append('missing_location')
         elif not l.get('confirmed'):errors.append('unconfirmed_location')
-        if l and routing().boundary(l)!='inside':errors.append(routing().boundary(l))
+        if l and (boundary_status := routing().boundary(l)) != 'inside':errors.append(boundary_status)
         if not d.get('category'):errors.append('missing_category')
         if not d.get('description','').strip():errors.append('missing_description')
         if active(d):errors.append('analysis_in_progress')
         a=d.get('analysis')
-        if not d.get('manual_resolution'):
+        if photo_rejected(d) or not d.get('manual_resolution'):
             if not a:errors.append('analysis_required')
             elif a.get('status')!='succeeded' or a.get('reason_codes'): errors.extend(a.get('reason_codes') or ['analysis_needs_correction'])
         route=d.get('route')
@@ -123,7 +154,7 @@ def create_app(data_dir=None,mode=None,manager=None):
         result={k:v for k,v in d.items() if not k.startswith('_')}
         missing=reasons(d)
         l=d.get('location') or {}
-        can_analyze=bool(d['photo'] and l.get('confirmed') and routing().boundary(l)=='inside' and not active(d))
+        can_analyze=bool(d['photo'] and l.get('confirmed') and routing().boundary(l)=='inside' and not active(d) and not photo_rejected(d))
         result['eligibility']={'can_analyze':can_analyze,'can_review':not missing,'can_prepare':not missing and d['review_revision']==d['revision'],'reason_codes':missing}
         result['state']='prepared' if d['prepared_revision']==d['revision'] and not missing else 'analyzing' if active(d) else 'ready_for_review' if not missing else 'needs_correction' if d['photo'] else 'draft'
         return result
@@ -340,23 +371,37 @@ def create_app(data_dir=None,mode=None,manager=None):
     async def upload(id:str,request:Request):return await photo_change(id,request)
     @app.delete('/api/v1/drafts/{id}/photo',response_model=DraftResponse)
     async def remove_photo(id:str,request:Request):return await photo_change(id,request,True)
+    def read_photo(db, draft):
+        if not draft['photo']:
+            raise Problem(404, 'photo_unavailable')
+        row = db.get(PhotoRow, draft['photo']['id'])
+        path = store.photos / row.key if row and row.draft_id == draft['id'] else None
+        if not path or path.is_symlink() or not path.is_file():
+            raise Problem(404, 'photo_unavailable')
+        try:
+            return path.read_bytes()
+        except FileNotFoundError:
+            raise Problem(404, 'photo_unavailable') from None
+
     @app.get('/api/v1/drafts/{id}/photo')
     @app.get('/api/v1/drafts/{id}/photo/download')
     async def photo(id:str,request:Request):
         with store.session() as db:
             _,d=owned(db,id,authorize(request,db))
-            if not d['photo']:raise Problem(404,'photo_unavailable')
-            p=db.get(PhotoRow,d['photo']['id']);path=store.photos/p.key if p else None
-            if not path or not path.is_file() or path.is_symlink():raise Problem(404,'photo_unavailable')
-            return Response(path.read_bytes(),media_type='image/jpeg',headers={'Content-Disposition':'attachment; filename="civicfix-photo.jpg"'} if request.url.path.endswith('/download') else {})
+            return Response(read_photo(db,d),media_type='image/jpeg',headers={'Content-Disposition':'attachment; filename="civicfix-photo.jpg"'} if request.url.path.endswith('/download') else {})
     @app.post('/api/v1/drafts/{id}/location/confirm',response_model=DraftResponse)
     async def confirm(id:str,request:Request,body:Confirm):
         async with lock:
             with store.session() as db,db.begin():
                 row,d=owned(db,id,authorize(request,db,True));require_match(request,d);l=d.get('location')
-                if not l or not l['label'].strip() or routing().boundary(l)!='inside':raise Problem(409,'location_not_confirmable')
+                if not l or not l['label'].strip():raise Problem(409,'location_not_confirmable')
+                status = routing().boundary(l)
+                if status == 'boundary_lookup_failed':
+                    raise Problem(503, 'boundary_unavailable', 'CivicFix could not check the Gainesville boundary. Try confirming the location again.')
+                if status != 'inside':raise Problem(409,'location_not_confirmable')
                 if not l['confirmed']:
-                    l['confirmed']=True;l['confirmed_at']=stamp(now());invalidate(d,manual=False,route=True);changed(d);save(row,d)
+                    l['confirmed']=True;l['confirmed_at']=stamp(now());l['boundary_status']=status
+                    invalidate(d,manual=False,route=True);changed(d);save(row,d)
                 return response(d)
     async def run_analysis(id,job_id,owner,generation,edits,image):
         nonlocal active_job
@@ -367,24 +412,20 @@ def create_app(data_dir=None,mode=None,manager=None):
                     if job:
                         value=json.loads(job.content)
                         if value['status']=='running':value['stage']=stage;job.content=encode(value)
-        result=None;status='failed'
+        c = v = rejection = None
+        status = 'failed'
         try:
             result=await asyncio.wait_for(manager.analyze(image,on_stage=on_stage),timeout=cfg.analysis_timeout)
-            for key,validator in [('classifier',ClassifierResult),('description',DescriptionResult)]:
-                execution=result.get(key,{})
-                if isinstance(execution.get('metadata'),dict):
-                    allowed={'adapter','model_id','revision','checkpoint_sha256','prompt_version','prompt_sha256','preprocessing_version','duration_seconds','simulated','runtime','device'}
-                    execution['metadata']={k:v for k,v in execution['metadata'].items() if k in allowed and isinstance(v,(str,int,float,bool,type(None)))}
-                if execution.get('status')=='error':
-                    safe_codes={'model_unavailable','invalid_output','timeout','worker_crash','cancelled','interrupted'}
-                    code=execution.get('error',{}).get('code','invalid_output')
-                    execution['error']={'code':code if code in safe_codes else 'invalid_output','message':'Local model analysis needs retry or manual correction.'}
-                if execution.get('status')=='ok':
-                    try:result[key]={'status':'ok','result':validator.model_validate(execution['result']).model_dump(),'metadata':execution.get('metadata',{})}
-                    except (ValidationError,KeyError,ValueError):result[key]={'status':'error','error':{'code':'invalid_output','message':'The model output did not match the report schema.'}}
-                elif execution.get('status')=='error':result[key]={'status':'error','error':execution['error']}
-                else:result[key]={'status':'error','error':{'code':'invalid_output','message':'The model output was incomplete.'}}
-            status='succeeded' if all(result[k]['status']=='ok' for k in ('classifier','description')) else 'failed'
+            c = validated_execution(result.get('classifier'), ClassifierResult)
+            outcome = c.get('result', {}).get('outcome')
+            if outcome in ('unsupported', 'unclear'):
+                rejection = f'classification_{outcome}'
+                status = 'rejected'
+            else:
+                if outcome == 'supported' or 'description' in result:
+                    v = validated_execution(result.get('description'), DescriptionResult)
+                if c['status'] == 'ok' and v and v['status'] == 'ok':
+                    status = 'succeeded'
         except asyncio.CancelledError:return
         except asyncio.TimeoutError:
             await manager.cancel();status='timed_out'
@@ -396,22 +437,29 @@ def create_app(data_dir=None,mode=None,manager=None):
                     row,d=owned(db,id,owner)
                     job=db.get(JobRow,job_id)
                     if not job or not active(d) or d['analysis']['job_id']!=job_id or d['_generation']!=generation:return
-                    a=d['analysis'];a['status']=status;a['classifier']=(result or {}).get('classifier');a['description']=(result or {}).get('description');a['reason_codes']=[]
-                    c=a['classifier'];v=a['description']
+                    a=d['analysis'];a.update(status=status,classifier=c,description=v,reason_codes=[])
+                    if rejection:
+                        a['reason_codes'].append(rejection)
+                        for field, blank in (('category', None), ('description', '')):
+                            if d['field_sources'][field] != 'user':
+                                d[field] = blank
+                                d['field_sources'][field] = None
+                        d['route'] = None
                     if not c or c['status']!='ok':a['reason_codes'].append('classification_failed')
-                    if not v or v['status']!='ok':a['reason_codes'].append('description_failed')
+                    if v and v['status']!='ok':a['reason_codes'].append('description_failed')
                     if v and v['status']=='ok':
                         vr=v['result']
                         if vr['outcome']!='supported':a['reason_codes'].extend([x['code'] for x in vr['clarification_reasons']])
                         if c and c['status']=='ok' and vr['category_suggestion'] and vr['category_suggestion']!=c['result']['predicted_category']:a['reason_codes'].append('category_disagreement')
                         if d['_edits']['description']==edits['description'] and d['field_sources']['description']!='user':d['description']=vr['suggested_description'];d['field_sources']['description']='qwen'
-                    if c and c['status']=='ok' and d['_edits']['category']==edits['category'] and d['field_sources']['category']!='user':d['category']=c['result']['predicted_category'];d['field_sources']['category']='clip';d['route']=None
+                    if c and c['status']=='ok' and not rejection and d['_edits']['category']==edits['category'] and d['field_sources']['category']!='user':d['category']=c['result']['predicted_category'];d['field_sources']['category']='clip';d['route']=None
                     invalidate(d);changed(d);save(row,d)
                     j=json.loads(job.content);j.update(status=status,stage='finished',finished_at=stamp(now()),classifier=c,description=v,reason_codes=a['reason_codes']);job.content=encode(j)
                 if cfg.mode == 'real' and c:
                     duration = real_clip_duration(c)
                     if duration is not None:
-                        predictions.labels(c['result']['predicted_category']).inc()
+                        if not rejection:
+                            predictions.labels(c['result']['predicted_category']).inc()
                         durations.observe(duration)
             except Problem:pass
             finally:
@@ -423,9 +471,14 @@ def create_app(data_dir=None,mode=None,manager=None):
         async with lock:
             with store.session() as db,db.begin():
                 owner=authorize(request,db,True);row,d=owned(db,id,owner);require_match(request,d)
+                require_replacement_if_rejected(d)
                 if active(d):raise Problem(409,'analysis_in_progress')
                 if active_job:raise Problem(429,'analysis_busy')
-                if not d['photo'] or not d.get('location',{} ) or not d['location'].get('confirmed') or routing().boundary(d['location'])!='inside':raise Problem(409,'analysis_inputs_required')
+                if not d['photo'] or not (d.get('location') or {}).get('confirmed'):raise Problem(409,'analysis_inputs_required')
+                status = routing().boundary(d['location'])
+                if status == 'boundary_lookup_failed':
+                    raise Problem(503, 'boundary_unavailable', 'CivicFix could not check the Gainesville boundary. Try again.')
+                if status != 'inside':raise Problem(409,'analysis_inputs_required')
                 caps=manager.capabilities()
                 states=[caps.get(k,{}).get('status') for k in ('classifier','description')]
                 if any(x in ('starting','loading') for x in states):raise Problem(503,'model_not_ready')
@@ -521,6 +574,7 @@ def create_app(data_dir=None,mode=None,manager=None):
         async with lock:
             with store.session() as db,db.begin():
                 row,d=owned(db,id,authorize(request,db,True));require_match(request,d)
+                require_replacement_if_rejected(d)
                 if active(d) or not d['photo'] or not d['category'] or not d['description'].strip():raise Problem(409,'manual_fields_required')
                 caps=manager.capabilities()
                 if not d.get('analysis') and not any(caps.get(k,{}).get('status')=='unavailable' for k in ('classifier','description')):raise Problem(409,'analysis_attempt_required')
@@ -545,6 +599,9 @@ def create_app(data_dir=None,mode=None,manager=None):
                 d['review_revision']=d['revision'];d['reviewed_at']=stamp(now());d['_nonemergency_confirmed']=True;save(row,d);return response(d)
     def preparation(d):
         return {'draft_id':d['id'],'prepared_revision':d['prepared_revision'],'prepared_at':d['prepared_at'],'expires_at':d['expires_at'],'photo':d['photo'],'location':d['location'],'category':d['category'],'description':d['description'],'field_sources':d['field_sources'],'user_observations':d['user_observations'],'destination':d['route'],'report_text':text(d,True),'message':MESSAGE}
+    def require_prepared(d):
+        if d['prepared_revision'] != d['revision'] or reasons(d):
+            raise Problem(409, 'preparation_unavailable')
     @app.post('/api/v1/drafts/{id}/prepare')
     async def prepare(id:str,request:Request,body:Empty):
         async with lock:
@@ -560,8 +617,21 @@ def create_app(data_dir=None,mode=None,manager=None):
     async def download_text(id:str,request:Request):
         with store.session() as db,db.begin():
             _,d=owned(db,id,authorize(request,db));prepared=request.url.path.endswith('/prepared.txt')
-            if prepared and (d['prepared_revision']!=d['revision'] or reasons(d)):raise Problem(409,'preparation_unavailable')
+            require_replacement_if_rejected(d)
+            if prepared:require_prepared(d)
             return PlainTextResponse(text(d,prepared),headers={'Content-Disposition':'attachment; filename="civicfix-report.txt"'})
+    @app.get('/api/v1/drafts/{id}/prepared.pdf', response_class=Response,
+             responses={200: {'content': {'application/pdf': {'schema': {'type': 'string', 'format': 'binary'}}}}})
+    async def download_pdf(id: str, request: Request):
+        with store.session() as db, db.begin():
+            _, draft = owned(db, id, authorize(request, db))
+            require_replacement_if_rejected(draft)
+            require_prepared(draft)
+            report = preparation(draft)
+            image = read_photo(db, draft)
+        pdf = await run_in_threadpool(render_pdf, report, image)
+        return Response(pdf, media_type='application/pdf',
+                        headers={'Content-Disposition': 'attachment; filename="civicfix-report.pdf"'})
     @app.delete('/api/v1/drafts/{id}',status_code=204)
     async def delete_draft(id:str,request:Request):
         async with lock:

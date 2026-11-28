@@ -73,7 +73,8 @@ class FeedbackState(Strict):
 
 
 class ClassifierResult(Strict):
-    predicted_category: Category
+    predicted_category: Category | None
+    outcome: Literal['supported', 'unclear', 'unsupported'] = 'supported'
     scores: dict[Category,float]
     top1_margin: float = Field(ge=0)
     mode: Literal['closed_set'] = 'closed_set'
@@ -85,7 +86,8 @@ class ClassifierResult(Strict):
         if set(self.scores) != set(CATEGORIES) or any(not math.isfinite(v) or abs(v)>1.00001 for v in self.scores.values()):
             raise ValueError('Exactly five finite cosine scores required')
         ordered=sorted(CATEGORIES,key=lambda c:-self.scores[c])
-        if self.predicted_category != ordered[0] or abs(self.top1_margin-(self.scores[ordered[0]]-self.scores[ordered[1]]))>1e-5:
+        expected_category = ordered[0] if self.outcome == 'supported' else None
+        if self.predicted_category != expected_category or abs(self.top1_margin-(self.scores[ordered[0]]-self.scores[ordered[1]]))>1e-5:
             raise ValueError('Inconsistent classifier winner or margin')
         return self
 ReasonCode = Literal['poor_image_quality','no_supported_issue','multiple_issues','insufficient_visual_evidence','operating_status_not_visible','other_uncertainty']
@@ -150,7 +152,7 @@ class Eligibility(BaseModel):
     can_prepare: bool
     reason_codes: list[str]
 class RouteView(BaseModel):
-    status: Literal['resolved','unresolved']
+    status: Literal['resolved','unresolved','error']
     route_id: str | None
     jurisdiction: str | None
     destination_name: str | None
@@ -161,6 +163,7 @@ class RouteView(BaseModel):
     verified_at: str
     reason_codes: list[str]
     guidance: str | None = None
+    road_names: list[str] = Field(default_factory=list)
 class ManualResolutionView(BaseModel):
     reason: str
     corrected_at: str
